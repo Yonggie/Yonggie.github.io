@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>NumberRun | Zack&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="import torchimport torch.utils.data.datasetimport torch.nn.modulesimport torch.nnimport torch.nn.functional as Ffrom torch.utils.tensorboard import SummaryWriterfrom itertools import productfrom datet">
+  <meta name="description" content="this page is full of pure code.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="NumberRun">
 <meta property="og:url" content="http://yoursite.com/2020/03/19/NumberRun/index.html">
 <meta property="og:site_name" content="Zack&#39;s Blog">
-<meta property="og:description" content="import torchimport torch.utils.data.datasetimport torch.nn.modulesimport torch.nnimport torch.nn.functional as Ffrom torch.utils.tensorboard import SummaryWriterfrom itertools import productfrom datet">
+<meta property="og:description" content="this page is full of pure code.">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-03-19T06:20:21.008Z">
-<meta property="article:modified_time" content="2020-02-17T04:13:24.355Z">
+<meta property="article:modified_time" content="2020-03-19T06:30:30.942Z">
 <meta property="article:author" content="秀儿坐下">
 <meta property="article:tag" content="青春">
 <meta name="twitter:card" content="summary">
@@ -177,156 +177,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>import torch<br>import torch.utils.data.dataset<br>import torch.nn.modules<br>import torch.nn<br>import torch.nn.functional as F<br>from torch.utils.tensorboard import SummaryWriter<br>from itertools import product<br>from datetime import datetime<br>import numpy as np</p>
-<p>def get_num_correct(preds,labels):<br>    return preds.argmax(dim=1).eq(labels).sum().item()</p>
-<p>class Net(torch.nn.Module):<br>    def <strong>init</strong>(self):<br>        super(Net,self).<strong>init</strong>()<br>        self.layer1=torch.nn.Linear(14,130)<br>        self.layer2=torch.nn.Linear(130,80)<br>        self.layer3 = torch.nn.Linear(80, 40)<br>        self.out=torch.nn.Linear(40,2)<br>    def forward(self, x):<br>        x=F.relu(self.layer1(x))<br>        x=F.relu(self.layer2(x))<br>        x = F.relu(self.layer3(x))<br>        x=self.out(x)<br>        return x</p>
-<p>class AdultSet(torch.utils.data.Dataset):<br>    def <strong>init</strong>(self,dataset=None,PATH=r’data-source\adult.csv’,start=0,end=0):<br>        if dataset is None:<br>            self.RawData = []<br>            self.Data = []<br>            self.GetClass = {}<br>            self.SecondFeatureMin = 12285<br>            self.SecondFeatureMax = 1484705<br>            self.Second = self.SecondFeatureMax - self.SecondFeatureMin</p>
-<pre><code>        self.LoadData(PATH)
-        self.WashData()
-    else:
-        self.Data=dataset.Data[start:end]
+        <p>this page is full of pure code.</p>
+<a id="more"></a>
 
-
-
-def LoadData(self, PATH):
-    with open(PATH, &apos;r&apos;) as f:
-        for line in f:
-            self.RawData.append([thing.strip() for thing in line.split(&apos;,&apos;)])
-    self.RawData = self.RawData[:-1]
-
-def WashData(self):
-    attribute = len(self.RawData[0])
-
-    index = 0
-    while index &lt; attribute:
-        cnt = 0
-        temp = [line[index] for line in self.RawData]
-
-        for item in temp:
-            if item not in self.GetClass:
-                self.GetClass[item] = cnt
-                cnt += 1
-        index += 1
-    self.NUMOFFEATURE = index
-
-    for line in self.RawData:
-        t = []
-        for j, f in enumerate(line):
-            if j == 0:
-                t.append(float(f) / 10)
-            elif j == 2:
-                t.append(round(float(f) / self.Second, 4))
-            elif j == 10 or j == 11:
-                t.append(float(f) / 2000)
-            elif j == 12:
-                t.append(float(f) / 10)
-            elif j == 14:
-                t.append(self.GetClass[f])
-            else:
-                t.append(self.GetClass[f] / 10)
-
-        self.Data.append(t)
-
-def MakeBad(self,mu=0,sigma=2):
-    noise=np.random.normal(loc=mu,scale=sigma,size=14)
-    temp=None
-
-    for i in range(len(self.Data)):
-        temp=self.Data[i][:-1]+noise
-        self.Data[i]=list(temp).append(self.Data[-1])
-
-
-def __len__(self):
-    return len(self.Data)
-
-def __getitem__(self, index):
-    return torch.tensor(self.Data[index][:-1],dtype=torch.float), \
-           self.Data[index][-1]</code></pre><p>HYPER_PARAMETERS=dict(<br>    EPOCH=[80],<br>    BATCH_SIZE=[1024],<br>    LEARNING_RATE=[0.01],<br>    SHUFFLE=[True],<br>)</p>
-<p>PARAM_VALUES=[v for v in HYPER_PARAMETERS.values()]<br>TRAIN_START=0<br>TRAIN_END=18000</p>
-<p>TEST_START=24000<br>TEST_END=30000</p>
-<p>if <strong>name</strong>==”<strong>main</strong>“:</p>
-<pre><code># file_path= r&apos;data-source\adult.csv&apos;
-whole_set=AdultSet()
-# train_set=torch.utils.data.Subset(whole_set,[i for i in range(TRAIN_START,TRAIN_END+1)])
-# test_set=torch.utils.data.Subset(whole_set,[i for i in range(TEST_START,TEST_END+1)])
-train_set=AdultSet(dataset=whole_set,start=TRAIN_START,end=TRAIN_END)
-test_set = AdultSet(dataset=whole_set, start=TEST_START, end=TEST_END)
-# print(next(iter(temp_set)))
-
-# exit(0)
-for Epoch,batch_size,lr,shuffle in product(*PARAM_VALUES):
-
-    INDEX = 1
-    network = Net()
-    train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)
-    optimizer = torch.optim.Adam(network.parameters(), lr=lr)
-
-    #tensor board
-    # time_stamp = &quot;{0:%Y-%m-%dT%H-%M-%S/}&quot;.format(datetime.now())
-    time_stamp = &quot;{0:%Y-%m-%d/}&quot;.format(datetime.now())
-    # comment=f&apos;epoch={Epoch} bath_size={batch_size} lr={lr} shuffle={shuffle}&apos;
-    comment = &quot;self-made dataset&quot;
-
-    tb=SummaryWriter(log_dir=&quot;number_run/&quot;+time_stamp+comment)
-    x,_=next(iter(train_loader))
-    tb.add_graph(model=network,input_to_model=x)
-
-    #training process
-    for epoch in range(Epoch):
-        total_loss = 0
-        #extract part of data from training set.
-        for batch in train_loader:
-            x,labels=batch
-
-            preds=network(x)
-            loss=F.cross_entropy(preds,labels)
-
-            optimizer.zero_grad()
-            loss.backward()
-            optimizer.step()
-            total_loss+=loss.item()*batch_size
-
-        tb.add_scalar(&apos;Loss&apos;,total_loss,epoch)
-
-        for name,weight in network.named_parameters():
-            tb.add_histogram(name,weight,epoch)
-            tb.add_histogram(f&apos;{name}.grad&apos;,weight.grad,epoch)
-        print(&quot;epoch&quot;,epoch,&quot;loss:&quot;,total_loss)
-
-
-        #test process using TRAINING SET!
-        with torch.no_grad():
-            total_correct = 0
-            for batch in train_loader:
-                xs,labels=batch
-                preds=network(xs)
-                total_correct += get_num_correct(preds,labels)
-
-            # tb.add_scalar(&apos;correct number&apos;, total_correct, INDEX)
-            tb.add_scalar(&apos;Traning Accuracy&apos;, total_correct/len(train_set), INDEX)
-            INDEX+=1
-
-    #traing process end.
-
-    #test process begin
-    with torch.no_grad():
-        test_loader=torch.utils.data.DataLoader(test_set,batch_size=len(test_set), shuffle=False)
-
-        total_correct = 0
-        for batch in test_loader:
-            xs, labels = batch
-            preds = network(xs)
-            total_correct += get_num_correct(preds, labels)
-
-        print(&apos;total_correct&apos;,total_correct)
-        test_accuracy=total_correct / len(test_set)
-        tb.add_scalar(&apos;Testing Accuracy&apos;, test_accuracy, 1)
-        print(&apos;test accuracy:&apos;,test_accuracy)
-    #test process end
-
-    tb.close()
-
-exit(0)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.utils.data.dataset</span><br><span class="line"><span class="keyword">import</span> torch.nn.modules</span><br><span class="line"><span class="keyword">import</span> torch.nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">from</span> torch.utils.tensorboard <span class="keyword">import</span> SummaryWriter</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> product</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_num_correct</span><span class="params">(preds,labels)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> preds.argmax(dim=<span class="number">1</span>).eq(labels).sum().item()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(torch.nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net,self).__init__()</span><br><span class="line">        self.layer1=torch.nn.Linear(<span class="number">14</span>,<span class="number">130</span>)</span><br><span class="line">        self.layer2=torch.nn.Linear(<span class="number">130</span>,<span class="number">80</span>)</span><br><span class="line">        self.layer3 = torch.nn.Linear(<span class="number">80</span>, <span class="number">40</span>)</span><br><span class="line">        self.out=torch.nn.Linear(<span class="number">40</span>,<span class="number">2</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x=F.relu(self.layer1(x))</span><br><span class="line">        x=F.relu(self.layer2(x))</span><br><span class="line">        x = F.relu(self.layer3(x))</span><br><span class="line">        x=self.out(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AdultSet</span><span class="params">(torch.utils.data.Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,dataset=None,PATH=<span class="string">r'data-source\adult.csv'</span>,start=<span class="number">0</span>,end=<span class="number">0</span>)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> dataset <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">            self.RawData = []</span><br><span class="line">            self.Data = []</span><br><span class="line">            self.GetClass = &#123;&#125;</span><br><span class="line">            self.SecondFeatureMin = <span class="number">12285</span></span><br><span class="line">            self.SecondFeatureMax = <span class="number">1484705</span></span><br><span class="line">            self.Second = self.SecondFeatureMax - self.SecondFeatureMin</span><br><span class="line"></span><br><span class="line">            self.LoadData(PATH)</span><br><span class="line">            self.WashData()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.Data=dataset.Data[start:end]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">LoadData</span><span class="params">(self, PATH)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(PATH, <span class="string">'r'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            <span class="keyword">for</span> line <span class="keyword">in</span> f:</span><br><span class="line">                self.RawData.append([thing.strip() <span class="keyword">for</span> thing <span class="keyword">in</span> line.split(<span class="string">','</span>)])</span><br><span class="line">        self.RawData = self.RawData[:<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">WashData</span><span class="params">(self)</span>:</span></span><br><span class="line">        attribute = len(self.RawData[<span class="number">0</span>])</span><br><span class="line"></span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> index &lt; attribute:</span><br><span class="line">            cnt = <span class="number">0</span></span><br><span class="line">            temp = [line[index] <span class="keyword">for</span> line <span class="keyword">in</span> self.RawData]</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> item <span class="keyword">in</span> temp:</span><br><span class="line">                <span class="keyword">if</span> item <span class="keyword">not</span> <span class="keyword">in</span> self.GetClass:</span><br><span class="line">                    self.GetClass[item] = cnt</span><br><span class="line">                    cnt += <span class="number">1</span></span><br><span class="line">            index += <span class="number">1</span></span><br><span class="line">        self.NUMOFFEATURE = index</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> line <span class="keyword">in</span> self.RawData:</span><br><span class="line">            t = []</span><br><span class="line">            <span class="keyword">for</span> j, f <span class="keyword">in</span> enumerate(line):</span><br><span class="line">                <span class="keyword">if</span> j == <span class="number">0</span>:</span><br><span class="line">                    t.append(float(f) / <span class="number">10</span>)</span><br><span class="line">                <span class="keyword">elif</span> j == <span class="number">2</span>:</span><br><span class="line">                    t.append(round(float(f) / self.Second, <span class="number">4</span>))</span><br><span class="line">                <span class="keyword">elif</span> j == <span class="number">10</span> <span class="keyword">or</span> j == <span class="number">11</span>:</span><br><span class="line">                    t.append(float(f) / <span class="number">2000</span>)</span><br><span class="line">                <span class="keyword">elif</span> j == <span class="number">12</span>:</span><br><span class="line">                    t.append(float(f) / <span class="number">10</span>)</span><br><span class="line">                <span class="keyword">elif</span> j == <span class="number">14</span>:</span><br><span class="line">                    t.append(self.GetClass[f])</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    t.append(self.GetClass[f] / <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">            self.Data.append(t)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">MakeBad</span><span class="params">(self,mu=<span class="number">0</span>,sigma=<span class="number">2</span>)</span>:</span></span><br><span class="line">        noise=np.random.normal(loc=mu,scale=sigma,size=<span class="number">14</span>)</span><br><span class="line">        temp=<span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(len(self.Data)):</span><br><span class="line">            temp=self.Data[i][:<span class="number">-1</span>]+noise</span><br><span class="line">            self.Data[i]=list(temp).append(self.Data[<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.Data)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> torch.tensor(self.Data[index][:<span class="number">-1</span>],dtype=torch.float), \</span><br><span class="line">               self.Data[index][<span class="number">-1</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">HYPER_PARAMETERS=dict(</span><br><span class="line">    EPOCH=[<span class="number">80</span>],</span><br><span class="line">    BATCH_SIZE=[<span class="number">1024</span>],</span><br><span class="line">    LEARNING_RATE=[<span class="number">0.01</span>],</span><br><span class="line">    SHUFFLE=[<span class="literal">True</span>],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">PARAM_VALUES=[v <span class="keyword">for</span> v <span class="keyword">in</span> HYPER_PARAMETERS.values()]</span><br><span class="line">TRAIN_START=<span class="number">0</span></span><br><span class="line">TRAIN_END=<span class="number">18000</span></span><br><span class="line"></span><br><span class="line">TEST_START=<span class="number">24000</span></span><br><span class="line">TEST_END=<span class="number">30000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line"></span><br><span class="line">    <span class="comment"># file_path= r'data-source\adult.csv'</span></span><br><span class="line">    whole_set=AdultSet()</span><br><span class="line">    <span class="comment"># train_set=torch.utils.data.Subset(whole_set,[i for i in range(TRAIN_START,TRAIN_END+1)])</span></span><br><span class="line">    <span class="comment"># test_set=torch.utils.data.Subset(whole_set,[i for i in range(TEST_START,TEST_END+1)])</span></span><br><span class="line">    train_set=AdultSet(dataset=whole_set,start=TRAIN_START,end=TRAIN_END)</span><br><span class="line">    test_set = AdultSet(dataset=whole_set, start=TEST_START, end=TEST_END)</span><br><span class="line">    <span class="comment"># print(next(iter(temp_set)))</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># exit(0)</span></span><br><span class="line">    <span class="keyword">for</span> Epoch,batch_size,lr,shuffle <span class="keyword">in</span> product(*PARAM_VALUES):</span><br><span class="line"></span><br><span class="line">        INDEX = <span class="number">1</span></span><br><span class="line">        network = Net()</span><br><span class="line">        train_loader = torch.utils.data.DataLoader(train_set, batch_size=batch_size, shuffle=shuffle)</span><br><span class="line">        optimizer = torch.optim.Adam(network.parameters(), lr=lr)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#tensor board</span></span><br><span class="line">        <span class="comment"># time_stamp = "&#123;0:%Y-%m-%dT%H-%M-%S/&#125;".format(datetime.now())</span></span><br><span class="line">        time_stamp = <span class="string">"&#123;0:%Y-%m-%d/&#125;"</span>.format(datetime.now())</span><br><span class="line">        <span class="comment"># comment=f'epoch=&#123;Epoch&#125; bath_size=&#123;batch_size&#125; lr=&#123;lr&#125; shuffle=&#123;shuffle&#125;'</span></span><br><span class="line">        comment = <span class="string">"self-made dataset"</span></span><br><span class="line"></span><br><span class="line">        tb=SummaryWriter(log_dir=<span class="string">"number_run/"</span>+time_stamp+comment)</span><br><span class="line">        x,_=next(iter(train_loader))</span><br><span class="line">        tb.add_graph(model=network,input_to_model=x)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#training process</span></span><br><span class="line">        <span class="keyword">for</span> epoch <span class="keyword">in</span> range(Epoch):</span><br><span class="line">            total_loss = <span class="number">0</span></span><br><span class="line">            <span class="comment">#extract part of data from training set.</span></span><br><span class="line">            <span class="keyword">for</span> batch <span class="keyword">in</span> train_loader:</span><br><span class="line">                x,labels=batch</span><br><span class="line"></span><br><span class="line">                preds=network(x)</span><br><span class="line">                loss=F.cross_entropy(preds,labels)</span><br><span class="line"></span><br><span class="line">                optimizer.zero_grad()</span><br><span class="line">                loss.backward()</span><br><span class="line">                optimizer.step()</span><br><span class="line">                total_loss+=loss.item()*batch_size</span><br><span class="line"></span><br><span class="line">            tb.add_scalar(<span class="string">'Loss'</span>,total_loss,epoch)</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> name,weight <span class="keyword">in</span> network.named_parameters():</span><br><span class="line">                tb.add_histogram(name,weight,epoch)</span><br><span class="line">                tb.add_histogram(<span class="string">f'<span class="subst">&#123;name&#125;</span>.grad'</span>,weight.grad,epoch)</span><br><span class="line">            print(<span class="string">"epoch"</span>,epoch,<span class="string">"loss:"</span>,total_loss)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">#test process using TRAINING SET!</span></span><br><span class="line">            <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">                total_correct = <span class="number">0</span></span><br><span class="line">                <span class="keyword">for</span> batch <span class="keyword">in</span> train_loader:</span><br><span class="line">                    xs,labels=batch</span><br><span class="line">                    preds=network(xs)</span><br><span class="line">                    total_correct += get_num_correct(preds,labels)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># tb.add_scalar('correct number', total_correct, INDEX)</span></span><br><span class="line">                tb.add_scalar(<span class="string">'Traning Accuracy'</span>, total_correct/len(train_set), INDEX)</span><br><span class="line">                INDEX+=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#traing process end.</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">#test process begin</span></span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            test_loader=torch.utils.data.DataLoader(test_set,batch_size=len(test_set), shuffle=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line">            total_correct = <span class="number">0</span></span><br><span class="line">            <span class="keyword">for</span> batch <span class="keyword">in</span> test_loader:</span><br><span class="line">                xs, labels = batch</span><br><span class="line">                preds = network(xs)</span><br><span class="line">                total_correct += get_num_correct(preds, labels)</span><br><span class="line"></span><br><span class="line">            print(<span class="string">'total_correct'</span>,total_correct)</span><br><span class="line">            test_accuracy=total_correct / len(test_set)</span><br><span class="line">            tb.add_scalar(<span class="string">'Testing Accuracy'</span>, test_accuracy, <span class="number">1</span>)</span><br><span class="line">            print(<span class="string">'test accuracy:'</span>,test_accuracy)</span><br><span class="line">        <span class="comment">#test process end</span></span><br><span class="line"></span><br><span class="line">        tb.close()</span><br><span class="line"></span><br><span class="line">    exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
       
 
       
