@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://yoursite.com/2020/03/19/Normalization/images/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/03/19/Normalization/images/2.png">
 <meta property="article:published_time" content="2020-03-19T06:20:20.998Z">
-<meta property="article:modified_time" content="2020-03-19T06:34:59.878Z">
+<meta property="article:modified_time" content="2020-03-24T09:04:29.354Z">
 <meta property="article:author" content="秀儿坐下">
 <meta property="article:tag" content="青春">
 <meta name="twitter:card" content="summary">
@@ -185,6 +185,9 @@
 <h3 id="why-do-we-need-to-peform-normalization"><a href="#why-do-we-need-to-peform-normalization" class="headerlink" title="why do we need to peform normalization?"></a>why do we need to peform normalization?</h3><p>Different value with different demension affect the data distribution. Without normalization your distribution might look like this:<br><img src="./images/1.png" alt="picture"><br>which cause gradient descent hard to converge( or even unable), as gradient descent take small step to get to the bowl point, and any unstandard circle might cause the path really zigzag, and that more iteration is required.</p>
 <p>After normalization, it distribute this:<br><img src="./images/2.png" alt="picture"><br>which make gradient decsent much more easier to converge, as no difficult path toward the destination.</p>
 <h3 id="does-every-machine-learning-algorithm-need-normalization"><a href="#does-every-machine-learning-algorithm-need-normalization" class="headerlink" title="does every machine learning algorithm need normalization?"></a>does every machine learning algorithm need normalization?</h3><p>Of course not! Only those related to data distributions need normalization, which are SVM, network, linear regression, logistic regression, etc. Bayesian emulation and decision tree are the ones that does not need normalization, as their principle is not related to distribution.</p>
+<h3 id="conmmonly-used-method"><a href="#conmmonly-used-method" class="headerlink" title="conmmonly used method"></a>conmmonly used method</h3><ol>
+<li>z-score<br>$$x_{new}=\frac{x_i-mean}{\sigma}$$<br>Transform the distribution into standard Guassian distribution.</li>
+</ol>
 
       
 

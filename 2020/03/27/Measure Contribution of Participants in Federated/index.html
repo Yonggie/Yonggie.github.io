@@ -6,18 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Zack&#39;s Blog</title>
+  <title>Measure Contribution of Participants in Federated Learning | Zack&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="还在等什么，快快加油努力吧！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Zack&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+  <meta name="description" content="Paper link">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Measure Contribution of Participants in Federated Learning">
+<meta property="og:url" content="http://yoursite.com/2020/03/27/Measure%20Contribution%20of%20Participants%20in%20Federated/index.html">
 <meta property="og:site_name" content="Zack&#39;s Blog">
-<meta property="og:description" content="还在等什么，快快加油努力吧！">
+<meta property="og:description" content="Paper link">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/03/27/image/shapley.jpg">
+<meta property="article:published_time" content="2020-03-27T03:55:05.848Z">
+<meta property="article:modified_time" content="2020-03-30T02:34:16.759Z">
 <meta property="article:author" content="秀儿坐下">
 <meta property="article:tag" content="青春">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/03/27/image/shapley.jpg">
   
     <link rel="alternative" href="/atom.xml" title="Zack&#39;s Blog" type="application/atom+xml">
   
@@ -155,295 +159,191 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Measure Contribution of Participants in Federated" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Measure Contribution of Participants in Federated Learning
+    </h1>
+  
+
+        
+        <a href="/2020/03/27/Measure%20Contribution%20of%20Participants%20in%20Federated/" class="archive-article-date">
+  	<time datetime="2020-03-27T03:55:05.848Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-27</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://arxiv.org/pdf/1909.08525v1.pdf" target="_blank" rel="noopener">Paper link</a></p>
+<a id="more"></a>
+<h2 id="BASIC"><a href="#BASIC" class="headerlink" title="BASIC"></a>BASIC</h2><ol>
+<li>backgroud: federated learning</li>
+<li>two measure methods exist, <a href="https://www.ime.usp.br/~abe/lista/pdfWiH1zqnMHo.pdf" target="_blank" rel="noopener">deletion diagnostics</a> and <a href="https://arxiv.org/pdf/1703.04730.pdf" target="_blank" rel="noopener">influence functions</a><h2 id="SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION"><a href="#SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION" class="headerlink" title="SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION"></a>SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION</h2>it’s used to split profit earned by all participants.<h4 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h4>We need to kill 500 monsters in total. A alone can kill 100; B alone can kill 125; C alone can kill 50. A and B together can kill 270; B and C together can kill 350; A and C together can kill 375; A and B and C together can kill 500 in total.<br>We denote what mentioned above as:<br>$v({1})=100;$ $v({2})=125;$ $v({3})=50;$<br>$v({1,2})=270;$ $v({2,3})=350;$ $v({1,3})=375;$<br>$v({1,2,3})=500;$<br>Note that the task can only be accomplished by three people.<br>possible cases might be 6 in total:<br>A invites B to make a group S and then invites C.<br>A invites C to make a group S and then invites B.<br>etc etc.</li>
+</ol>
+<h4 id="Marginal-Contribution"><a href="#Marginal-Contribution" class="headerlink" title="Marginal Contribution"></a>Marginal Contribution</h4><p>The marginal contribution splitted of this 6 cases should be calculated as this as shown in the table.<br><img src="../image/shapley.jpg" alt="image"><br> so the marginal contribution is formulated as: $\delta_i(S)=v(S \cup {i} )-v(S)$, where $\delta$ denote the influence/contribution factor, $\delta_i(S)$ denote the $i^{th}$ participant’s contribution to group $S$. From the discussion we can know that the order of the participants really matters in term of marginal contribution.</p>
+<h4 id="Shapley-Value"><a href="#Shapley-Value" class="headerlink" title="Shapley Value"></a>Shapley Value</h4><p>shapley value takes high importance on marginal contribution(边际贡献 in chinese), which is formulated as $$ Sh(S,i)=\frac{\Sigma_{r\in R}\delta_i(r)}{|Ag|!}$$, where $|Ag|$ denote the number of agants who participates; $R$ denotes the set of all possible cases, $r$ denotes one specific case that belong to whole set $R$;<br>According to the shapley value equation, we calculate agants’ value as followed:<br>1： $\frac1{6}(100+100+145+150+325+150)=\frac{970}{6}$<br>2： $\frac1{6}(170+125+125+125+125+300)=\frac{970}{6}$<br>3： $\frac1{6}(230+275+230+225+50+50)=\frac{1060}{6}$<br>1 2 3 total is 500.<br>and then they can split the profit according to the shapley value.</p>
+<h2 id="COALITION-GAME-联合博弈"><a href="#COALITION-GAME-联合博弈" class="headerlink" title="COALITION GAME(联合博弈)"></a>COALITION GAME(联合博弈)</h2><p> TBD</p>
+<h2 id="PAPER-METHOD"><a href="#PAPER-METHOD" class="headerlink" title="PAPER METHOD"></a>PAPER METHOD</h2><h4 id="Horizontal-Measurement"><a href="#Horizontal-Measurement" class="headerlink" title="Horizontal Measurement"></a>Horizontal Measurement</h4><p>Deletion diagnostics is intuitive. Retrain the model each time with an instance omitted from training dataset and measure how much the prediction of retrained model changes.</p>
+<p>Suppose we omit the $i^{th}$ instance, or rather one piece of data, influence is formulated as:<br>$$Influence(i)=\frac{1}{n}\Sigma_{j=i}^n|pred_j^{}-pred_j^{-i}|$$</p>
+<p>And any dataset had many instance, so the dataset influence can be discribed as:<br>$$Influence(D)=\Sigma_{i \in D}Influence(D^i)$$<br>where $D^i$ means the $i^{th}$ instance in dataset.</p>
+<h4 id="Vertical-Measurement"><a href="#Vertical-Measurement" class="headerlink" title="Vertical Measurement"></a>Vertical Measurement</h4><p>coeffient<br>Questions tbd: what is situational importance?<br>It’s an ancient question coming up a long time ago, and there’re pretty many paper about this question. Most of them applied shapley value as measurement to get vertical FML contribution of each party.</p>
+<p>We first take a easy example and then we generalize the situation.</p>
+<h4 id="Individual-Feature-Shaley-Value"><a href="#Individual-Feature-Shaley-Value" class="headerlink" title="Individual Feature Shaley Value"></a>Individual Feature Shaley Value</h4><p>Note: we are now in INSTANCE level! We are talking about ONE SINGLE INSTANCE, one piece of data.<br>Consider an instance with total n features, what is the contribution of one specific feature value?<br>Suppose to calculate the contribution of the $i^{th}$ feature, we go like this:<br>$$\phi_i(x)=\Sigma_{Q \in S \setminus {i}}\frac{|Q|!(|S|-|Q|-1)!}{|S|!}(\Delta_{Q\cup{i}}-\Delta_Q)$$<br>where $S$ is the index set of all feature, $Q$ is a index subset, $|.|$ denotes the number of $.$ .<br>By observation, we can see that right part of the equation is the influence difference between subset with $i^{th}$ and subset without $i^{th}$ while the left part is just a coeffient to average the influence.</p>
+<h4 id="Dataset-Feature-Shaley-Value"><a href="#Dataset-Feature-Shaley-Value" class="headerlink" title="Dataset Feature Shaley Value"></a>Dataset Feature Shaley Value</h4><p>We are coming into DATASET LEVEL.<br>Although the method mentioned above gives a strong sulotion to get contribution of individual feature, but with so many data in a dataset, computing has a exponential time complexity, making it infeasible to implement in practice.<br>An approximation with Monto-Carlo Sampling algorithm has been proposed in <a href="https://link.springer.com/article/10.1007/s10115-013-0679-x" target="_blank" rel="noopener">this paper</a>:<br>$$\phi_i(x)=\frac 1{M}\Sigma_{m=1}^M(f(x_{+i}^m)-f(x_{-i}^m))$$<br>where $M$ is the iteration number, which is customized by user; $x_{-i}^m$ is subset with random feature replaced by randomly picked instance from dataset, and WITHOUT $i^{th}$ feature; $x_{+i}^m$ is everything the same as $x_{-i}^m$ but WITH $i^{th}$ feature.</p>
+<p>To summarize, the sampling method helps simplify computing making it feasible to perform contribution algorithm in dataset level.</p>
+<h4 id="Federated-Learning-Feature-Shaley-Value"><a href="#Federated-Learning-Feature-Shaley-Value" class="headerlink" title="Federated Learning Feature Shaley Value"></a>Federated Learning Feature Shaley Value</h4><p>This is the paper method proposed by the author.</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>感谢各位大佬<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/Alipay.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/img/weixin.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/The%20Curse%20of%20Concentration%20in%20Robust%20Learning/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:21.025Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/The%20Curse%20of%20Concentration%20in%20Robust%20Learning/">The Curse of Concentration in Robust Learning</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/03/27/Measure%20Contribution%20of%20Participants%20in%20Federated/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/Regularization/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:21.016Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2020/03/28/MontoCarlo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Monto-Carlo Sampling
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/03/20/Exponentiallly%20weighted%20averages/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Exponentially weighted averages</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/Regularization/">Overfitting&amp;Regularization</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/NumberRun/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:21.008Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/NumberRun/">NumberRun</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/Normalization/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.998Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/Normalization/">Normalization</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/Neural%20Network/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.990Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/Neural%20Network/">Neural Network</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/MikTex/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.981Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/MikTex/">windows下 MikTex的安装和初步使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/machine-learning-Andrew-Ng/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.972Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/machine-learning-Andrew-Ng/">Andrew notebook</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/LinearRegression&LogisticRegression/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.963Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/LinearRegression&LogisticRegression/">Linear Regression&amp;Logistic Regression Principle</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/Java/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.953Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/Java/">java notebook</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/19/Image-training-in-practice/" class="archive-article-date">
-  	<time datetime="2020-03-19T06:20:20.942Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/19/Image-training-in-practice/">Image training in practice</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><a class="extend next" rel="next" href="/archives/page/3/">Next &amp;raquo;</a>
-    </nav>
   
 
 
@@ -484,8 +384,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
