@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Takeaways需要规整两个文件xx&#x2F;images&#x2F;和xx&#x2F;labels，其中里面堆放可以堆放指向文件的txt，分别都是train.txt和val.txt。 训练使用yolo项目中train.py，其命令中data选项需要yaml，进行数据集的指向和说明。一定要保证yaml的路径与我们处理的数据集的路径相同。 所有运行后的结果，都会在项目的runs文件夹中。 快速上手^[https:&#x2F;&#x2F;docs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="YOLOv5 quick start">
+<meta property="og:url" content="https://yonggie.github.io/2020/09/04/yolov5_takeaway/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="Takeaways需要规整两个文件xx&#x2F;images&#x2F;和xx&#x2F;labels，其中里面堆放可以堆放指向文件的txt，分别都是train.txt和val.txt。 训练使用yolo项目中train.py，其命令中data选项需要yaml，进行数据集的指向和说明。一定要保证yaml的路径与我们处理的数据集的路径相同。 所有运行后的结果，都会在项目的runs文件夹中。 快速上手^[https:&#x2F;&#x2F;docs">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/26833433112467887-e18a0980-8d67-11eb-93af-6505620ff8aa.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/26833433/103595982-ab986000-4eb1-11eb-8c57-4726261b0a88.png">
+<meta property="article:published_time" content="2020-09-04T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-02-22T09:01:57.374Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="cv, object detection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/26833433112467887-e18a0980-8d67-11eb-93af-6505620ff8aa.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>YOLOv5 quick start</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2020/09/06/xgboost/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2020/09/01/moving_average/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2020/09/04/yolov5_takeaway/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&text=YOLOv5 quick start"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&is_video=false&description=YOLOv5 quick start"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=YOLOv5 quick start&body=Check out this article: https://yonggie.github.io/2020/09/04/yolov5_takeaway/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&name=YOLOv5 quick start&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&t=YOLOv5 quick start"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Takeaways"><span class="toc-number">1.</span> <span class="toc-text">Takeaways</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B-https-docs-ultralytics-com-quick-start"><span class="toc-number">2.</span> <span class="toc-text">快速上手^[https:&#x2F;&#x2F;docs.ultralytics.com&#x2F;quick-start&#x2F;]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Inference"><span class="toc-number">3.</span> <span class="toc-text">Inference</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Training"><span class="toc-number">4.</span> <span class="toc-text">Training</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99yaml%E6%96%87%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">编写yaml文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%BE%97%E6%A0%87%E7%AD%BE"><span class="toc-number">4.2.</span> <span class="toc-text">获得标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E5%8C%96label%E6%A0%BC%E5%BC%8F%EF%BC%88%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">转化label格式（如果需要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E7%90%86%E7%9B%AE%E5%BD%95"><span class="toc-number">4.4.</span> <span class="toc-text">整理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Training-1"><span class="toc-number">4.5.</span> <span class="toc-text">Training</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">4.6.</span> <span class="toc-text">查看训练、可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wandb"><span class="toc-number">4.6.1.</span> <span class="toc-text">wandb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorboard"><span class="toc-number">4.6.2.</span> <span class="toc-text">tensorboard</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E9%AB%98%E8%AE%AD%E7%BB%83%E7%BB%93%E6%9E%9Ctips"><span class="toc-number">5.</span> <span class="toc-text">更高训练结果tips</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">数据集改进点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="toc-number">5.2.</span> <span class="toc-text">模型选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">训练参数</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        YOLOv5 quick start
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-04T08:14:38.000Z" itemprop="datePublished">2020-09-04</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/cv-object-detection/" rel="tag">cv, object detection</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Takeaways"><a href="#Takeaways" class="headerlink" title="Takeaways"></a>Takeaways</h1><p>需要规整两个文件<code>xx/images/</code>和<code>xx/labels</code>，其中里面堆放可以堆放指向文件的txt，分别都是<code>train.txt</code>和<code>val.txt</code>。</p>
+<p>训练使用yolo项目中<code>train.py</code>，其命令中data选项需要yaml，进行数据集的指向和说明。一定要保证yaml的路径与我们处理的数据集的路径相同。</p>
+<p>所有运行后的结果，都会在项目的runs文件夹中。</p>
+<h1 id="快速上手-https-docs-ultralytics-com-quick-start"><a href="#快速上手-https-docs-ultralytics-com-quick-start" class="headerlink" title="快速上手^[https://docs.ultralytics.com/quick-start/]"></a>快速上手^[<a target="_blank" rel="noopener" href="https://docs.ultralytics.com/quick-start/">https://docs.ultralytics.com/quick-start/</a>]</h1><p>总参考：<a target="_blank" rel="noopener" href="https://docs.ultralytics.com/tutorials/training-tips-best-results/">https://docs.ultralytics.com/tutorials/training-tips-best-results/</a> </p>
+<h1 id="Inference"><a href="#Inference" class="headerlink" title="Inference"></a>Inference</h1><ul>
+<li>两种方法，一个是自行下载model源码，使用detect.py.  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python .\detect.py --weights <span class="string">&quot;weights/yolov5s.pt&quot;</span> --source <span class="string">&quot;data/images/bus.jpg&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>另一个是通过<code>torch.hub</code>  <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># Model</span></span><br><span class="line">model = torch.hub.load(<span class="string">&#x27;ultralytics/yolov5&#x27;</span>, <span class="string">&#x27;yolov5s&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Images</span></span><br><span class="line"><span class="built_in">dir</span> = <span class="string">&#x27;https://github.com/ultralytics/yolov5/raw/master/data/images/&#x27;</span></span><br><span class="line">imgs = [<span class="built_in">dir</span> + f <span class="keyword">for</span> f <span class="keyword">in</span> (<span class="string">&#x27;zidane.jpg&#x27;</span>, <span class="string">&#x27;bus.jpg&#x27;</span>)]  <span class="comment"># batch of images</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Inference</span></span><br><span class="line">results = model(imgs)</span><br><span class="line">results.<span class="built_in">print</span>()  <span class="comment"># or .show(), .save()</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h1></li>
+</ul>
+<h2 id="编写yaml文件"><a href="#编写yaml文件" class="headerlink" title="编写yaml文件"></a>编写yaml文件</h2><p>首先需要一个yaml文件，放在<code>data</code>文件夹下，示例如下：<br>第一行其实是存放路径名的文件，文件的每一行可以有三种形式，注释已经给出。</p>
+<ul>
+<li>一种是直接把目录给出，目录里面放有图片+标签</li>
+<li>一种是以txt形式给出，txt里面有图片/label的路径</li>
+<li>一种是多种路径同时给出<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># train and val data as 1) directory: path/images/, 2) file: path/images.txt, or 3) list: [path1/images/, path2/images/]</span></span><br><span class="line"><span class="attr">train:</span> <span class="string">../coco128/images/train2017/</span></span><br><span class="line"><span class="attr">val:</span> <span class="string">../coco128/images/train2017/</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># number of classes</span></span><br><span class="line"><span class="attr">nc:</span> <span class="number">80</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># class names</span></span><br><span class="line"><span class="attr">names:</span> [<span class="string">&#x27;person&#x27;</span>, <span class="string">&#x27;bicycle&#x27;</span>, <span class="string">&#x27;car&#x27;</span>, <span class="string">&#x27;motorcycle&#x27;</span>, <span class="string">&#x27;airplane&#x27;</span>, <span class="string">&#x27;bus&#x27;</span>, <span class="string">&#x27;train&#x27;</span>, <span class="string">&#x27;truck&#x27;</span>, <span class="string">&#x27;boat&#x27;</span>, <span class="string">&#x27;traffic light&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;fire hydrant&#x27;</span>, <span class="string">&#x27;stop sign&#x27;</span>, <span class="string">&#x27;parking meter&#x27;</span>, <span class="string">&#x27;bench&#x27;</span>, <span class="string">&#x27;bird&#x27;</span>, <span class="string">&#x27;cat&#x27;</span>, <span class="string">&#x27;dog&#x27;</span>, <span class="string">&#x27;horse&#x27;</span>, <span class="string">&#x27;sheep&#x27;</span>, <span class="string">&#x27;cow&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;elephant&#x27;</span>, <span class="string">&#x27;bear&#x27;</span>, <span class="string">&#x27;zebra&#x27;</span>, <span class="string">&#x27;giraffe&#x27;</span>, <span class="string">&#x27;backpack&#x27;</span>, <span class="string">&#x27;umbrella&#x27;</span>, <span class="string">&#x27;handbag&#x27;</span>, <span class="string">&#x27;tie&#x27;</span>, <span class="string">&#x27;suitcase&#x27;</span>, <span class="string">&#x27;frisbee&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;skis&#x27;</span>, <span class="string">&#x27;snowboard&#x27;</span>, <span class="string">&#x27;sports ball&#x27;</span>, <span class="string">&#x27;kite&#x27;</span>, <span class="string">&#x27;baseball bat&#x27;</span>, <span class="string">&#x27;baseball glove&#x27;</span>, <span class="string">&#x27;skateboard&#x27;</span>, <span class="string">&#x27;surfboard&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;tennis racket&#x27;</span>, <span class="string">&#x27;bottle&#x27;</span>, <span class="string">&#x27;wine glass&#x27;</span>, <span class="string">&#x27;cup&#x27;</span>, <span class="string">&#x27;fork&#x27;</span>, <span class="string">&#x27;knife&#x27;</span>, <span class="string">&#x27;spoon&#x27;</span>, <span class="string">&#x27;bowl&#x27;</span>, <span class="string">&#x27;banana&#x27;</span>, <span class="string">&#x27;apple&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sandwich&#x27;</span>, <span class="string">&#x27;orange&#x27;</span>, <span class="string">&#x27;broccoli&#x27;</span>, <span class="string">&#x27;carrot&#x27;</span>, <span class="string">&#x27;hot dog&#x27;</span>, <span class="string">&#x27;pizza&#x27;</span>, <span class="string">&#x27;donut&#x27;</span>, <span class="string">&#x27;cake&#x27;</span>, <span class="string">&#x27;chair&#x27;</span>, <span class="string">&#x27;couch&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;potted plant&#x27;</span>, <span class="string">&#x27;bed&#x27;</span>, <span class="string">&#x27;dining table&#x27;</span>, <span class="string">&#x27;toilet&#x27;</span>, <span class="string">&#x27;tv&#x27;</span>, <span class="string">&#x27;laptop&#x27;</span>, <span class="string">&#x27;mouse&#x27;</span>, <span class="string">&#x27;remote&#x27;</span>, <span class="string">&#x27;keyboard&#x27;</span>, </span><br><span class="line">        <span class="string">&#x27;cell phone&#x27;</span>, <span class="string">&#x27;microwave&#x27;</span>, <span class="string">&#x27;oven&#x27;</span>, <span class="string">&#x27;toaster&#x27;</span>, <span class="string">&#x27;sink&#x27;</span>, <span class="string">&#x27;refrigerator&#x27;</span>, <span class="string">&#x27;book&#x27;</span>, <span class="string">&#x27;clock&#x27;</span>, <span class="string">&#x27;vase&#x27;</span>, <span class="string">&#x27;scissors&#x27;</span>, </span><br><span class="line">        <span class="string">&#x27;teddy bear&#x27;</span>, <span class="string">&#x27;hair drier&#x27;</span>, <span class="string">&#x27;toothbrush&#x27;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="获得标签"><a href="#获得标签" class="headerlink" title="获得标签"></a>获得标签</h2><p>可以使用CVAT、 makesense.ai、 Labelbox、Labelimg等等工具打标。</p>
+<h2 id="转化label格式（如果需要）"><a href="#转化label格式（如果需要）" class="headerlink" title="转化label格式（如果需要）"></a>转化label格式（如果需要）</h2><p>label格式一般有两种，一个是xml，一个是txt。<br>txt格式是：每一行都是一个object，以<code>class x_center y_center width height</code>表示，yolo系列使用的是txt格式。<br>xml格式实例：<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; ?&gt;&lt;annotation&gt;</span><br><span class="line">  &lt;filename&gt;helmet_10827.jpg&lt;/filename&gt;</span><br><span class="line">  &lt;size&gt;</span><br><span class="line">    &lt;width&gt;1920&lt;/width&gt;</span><br><span class="line">    &lt;height&gt;1080&lt;/height&gt;</span><br><span class="line">    &lt;depth&gt;3&lt;/depth&gt;</span><br><span class="line">  &lt;/size&gt;</span><br><span class="line">  &lt;object&gt;</span><br><span class="line">    &lt;name&gt;hat&lt;/name&gt;</span><br><span class="line">    &lt;bndbox&gt;</span><br><span class="line">      &lt;xmin&gt;1227&lt;/xmin&gt;</span><br><span class="line">      &lt;ymin&gt;385&lt;/ymin&gt;</span><br><span class="line">      &lt;xmax&gt;1288&lt;/xmax&gt;</span><br><span class="line">      &lt;ymax&gt;446&lt;/ymax&gt;</span><br><span class="line">    &lt;/bndbox&gt;</span><br><span class="line">  &lt;/object&gt;</span><br><span class="line">  &lt;object&gt;</span><br><span class="line">    &lt;name&gt;person&lt;/name&gt;</span><br><span class="line">    &lt;bndbox&gt;</span><br><span class="line">      &lt;xmin&gt;1161&lt;/xmin&gt;</span><br><span class="line">      &lt;ymin&gt;377&lt;/ymin&gt;</span><br><span class="line">      &lt;xmax&gt;1324&lt;/xmax&gt;</span><br><span class="line">      &lt;ymax&gt;604&lt;/ymax&gt;</span><br><span class="line">    &lt;/bndbox&gt;</span><br><span class="line">  &lt;/object&gt;</span><br><span class="line">&lt;/annotation&gt;</span><br></pre></td></tr></table></figure></p>
+<p>xml转txt可以用以下<strong>示例</strong>代码^[<a target="_blank" rel="noopener" href="https://docs.cvmart.net/#/best_practice_for_newbie?id=jump1]转化：">https://docs.cvmart.net/#/best_practice_for_newbie?id=jump1]转化：</a><br>xml转txt<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> xml.etree.ElementTree <span class="keyword">as</span> ET</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">from</span> os <span class="keyword">import</span> listdir, getcwd</span><br><span class="line"><span class="keyword">from</span> os.path <span class="keyword">import</span> join</span><br><span class="line"></span><br><span class="line">sets=[<span class="string">&#x27;train&#x27;</span>, <span class="string">&#x27;val&#x27;</span>, <span class="string">&#x27;test&#x27;</span>]</span><br><span class="line">classes = [<span class="string">&#x27;person&#x27;</span>, <span class="string">&#x27;hat&#x27;</span>,<span class="string">&#x27;head&#x27;</span>]</span><br><span class="line"></span><br><span class="line">abs_path = os.getcwd()</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">convert</span>(<span class="params">size, box</span>):</span><br><span class="line">    dw = <span class="number">1.</span>/(size[<span class="number">0</span>])</span><br><span class="line">    dh = <span class="number">1.</span>/(size[<span class="number">1</span>])</span><br><span class="line">    x = (box[<span class="number">0</span>] + box[<span class="number">1</span>])/<span class="number">2.0</span> - <span class="number">1</span></span><br><span class="line">    y = (box[<span class="number">2</span>] + box[<span class="number">3</span>])/<span class="number">2.0</span> - <span class="number">1</span></span><br><span class="line">    w = box[<span class="number">1</span>] - box[<span class="number">0</span>]</span><br><span class="line">    h = box[<span class="number">3</span>] - box[<span class="number">2</span>]</span><br><span class="line">    x = x*dw</span><br><span class="line">    w = w*dw</span><br><span class="line">    y = y*dh</span><br><span class="line">    h = h*dh</span><br><span class="line">    <span class="keyword">return</span> (x,y,w,h)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">convert_annotation</span>(<span class="params">image_id</span>):</span><br><span class="line">    in_file = <span class="built_in">open</span>(<span class="string">&#x27;/project/train/src_repo/dataset/Annotations/%s.xml&#x27;</span>%( image_id))</span><br><span class="line">    out_file = <span class="built_in">open</span>(<span class="string">&#x27;/project/train/src_repo/dataset/labels/%s.txt&#x27;</span>%(image_id), <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">    tree=ET.parse(in_file)</span><br><span class="line">    root = tree.getroot()</span><br><span class="line">    size = root.find(<span class="string">&#x27;size&#x27;</span>)</span><br><span class="line">    w = <span class="built_in">int</span>(size.find(<span class="string">&#x27;width&#x27;</span>).text)</span><br><span class="line">    h = <span class="built_in">int</span>(size.find(<span class="string">&#x27;height&#x27;</span>).text)</span><br><span class="line">    <span class="keyword">for</span> obj <span class="keyword">in</span> root.<span class="built_in">iter</span>(<span class="string">&#x27;object&#x27;</span>):</span><br><span class="line">        <span class="comment">#difficult = obj.find(&#x27;difficult&#x27;).text</span></span><br><span class="line">        cls = obj.find(<span class="string">&#x27;name&#x27;</span>).text</span><br><span class="line">        <span class="keyword">if</span> cls <span class="keyword">not</span> <span class="keyword">in</span> classes :</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        cls_id = classes.index(cls)</span><br><span class="line">        xmlbox = obj.find(<span class="string">&#x27;bndbox&#x27;</span>)</span><br><span class="line">        b = (<span class="built_in">float</span>(xmlbox.find(<span class="string">&#x27;xmin&#x27;</span>).text), <span class="built_in">float</span>(xmlbox.find(<span class="string">&#x27;xmax&#x27;</span>).text), <span class="built_in">float</span>(xmlbox.find(<span class="string">&#x27;ymin&#x27;</span>).text), <span class="built_in">float</span>(xmlbox.find(<span class="string">&#x27;ymax&#x27;</span>).text))</span><br><span class="line">        bb = convert((w,h), b)</span><br><span class="line">        out_file.write(<span class="built_in">str</span>(cls_id) + <span class="string">&quot; &quot;</span> + <span class="string">&quot; &quot;</span>.join([<span class="built_in">str</span>(a) <span class="keyword">for</span> a <span class="keyword">in</span> bb]) + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> image_set <span class="keyword">in</span> sets:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(<span class="string">&#x27;/project/train/src_repo/dataset/labels/&#x27;</span>):</span><br><span class="line">        os.makedirs(<span class="string">&#x27;/project/train/src_repo/dataset/labels/&#x27;</span>)</span><br><span class="line">    image_ids = <span class="built_in">open</span>(<span class="string">&#x27;/project/train/src_repo/dataset/ImageSets/Main/%s.txt&#x27;</span>%(image_set)).read().strip().split()</span><br><span class="line">    list_file = <span class="built_in">open</span>(<span class="string">&#x27;/project/train/src_repo/dataset/%s.txt&#x27;</span>%(image_set), <span class="string">&#x27;w&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> image_id <span class="keyword">in</span> image_ids:</span><br><span class="line">        list_file.write(<span class="string">&#x27;/project/train/src_repo/dataset/images/%s.jpg\n&#x27;</span>%(image_id))</span><br><span class="line">        convert_annotation(image_id)</span><br><span class="line">    list_file.close()</span><br></pre></td></tr></table></figure></p>
+<h2 id="整理目录"><a href="#整理目录" class="headerlink" title="整理目录"></a>整理目录</h2><p>目录结构应该成这个样子：<br><img src="https://user-images.githubusercontent.com/26833433112467887-e18a0980-8d67-11eb-93af-6505620ff8aa.png" alt="这是图片"></p>
+<p>dataset单独一个目录，目录下有images和labels两个目录，每个目录下有train和valid。</p>
+<h2 id="Training-1"><a href="#Training-1" class="headerlink" title="Training"></a>Training</h2><p>在下载的源码里，有<code>train.py</code>。<br>只需按照示例：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Train YOLOv5s on COCO128 for 5 epochs</span></span><br><span class="line">$ python train.py --img <span class="number">640</span> --batch <span class="number">16</span> --epochs <span class="number">5</span> --data coco128.yaml --weights yolov5s.pt</span><br></pre></td></tr></table></figure><br>训练结果会保存在项目的<code>runs/train/</code>。</p>
+<h2 id="查看训练、可视化"><a href="#查看训练、可视化" class="headerlink" title="查看训练、可视化"></a>查看训练、可视化</h2><p>可以用wandb和tensorboard，教程推荐使用wandb。</p>
+<h3 id="wandb"><a href="#wandb" class="headerlink" title="wandb"></a>wandb</h3><p>可以用wandb，<code>pip install wandb</code>，在训练过程中就可以在 <a target="_blank" rel="noopener" href="https://wandb.ai">https://wandb.ai</a> 中看到结果。<br>使用这个工具，log会被默认的放在<code>runs/train</code>。</p>
+<h3 id="tensorboard"><a href="#tensorboard" class="headerlink" title="tensorboard"></a>tensorboard</h3><p>这个需要自行修改代码，在合适的位置加入tb，记录数据。</p>
+<h1 id="更高训练结果tips"><a href="#更高训练结果tips" class="headerlink" title="更高训练结果tips"></a>更高训练结果tips</h1><h2 id="数据集改进点"><a href="#数据集改进点" class="headerlink" title="数据集改进点"></a>数据集改进点</h2><ul>
+<li>关于每类的图片：每一类最好是≥1.5k的图片。</li>
+<li>每类物体最好是≥10k. 并且物体要具有代表性。真实场景下，推荐使用不同时间段、不同季节、不同角度、不同光照、不同天气、不同采集源的同一物体，做为训练数据。</li>
+<li>Label consistency. All instances of all classes in all images must be labelled. Partial labelling will not work.</li>
+<li>Label accuracy. Labels must closely enclose each object. No space should exist between an object and it’s bounding box. No objects should be missing a label.</li>
+<li>Background images. Background images are images with no objects that are added to a dataset to reduce False Positives (FP). We recommend about 0-10% background images to help reduce FPs (COCO has 1000 background images for reference, 1% of the total).</li>
+</ul>
+<h2 id="模型选择"><a href="#模型选择" class="headerlink" title="模型选择"></a>模型选择</h2><p>yolo提供了多种不同大小的模型，大模型往往能更好的结果。<br><img src="https://user-images.githubusercontent.com/26833433/103595982-ab986000-4eb1-11eb-8c57-4726261b0a88.png" alt=""></p>
+<ul>
+<li>pretrain往往在中小型数据集上。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">python train.py --data custom.yaml --weights yolov5s.pt</span><br><span class="line">                                         yolov5m.pt</span><br><span class="line">                                         yolov5l.pt</span><br><span class="line">                                         yolov5x.pt</span><br><span class="line">                                         custom_pretrained.pt</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li>train from scratch往往在大数据集上。  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python train.py --data custom.yaml --weights &#x27;&#x27; --cfg yolov5s.yaml</span><br><span class="line">                                                  yolov5m.yaml</span><br><span class="line">                                                  yolov5l.yaml</span><br><span class="line">                                                  yolov5x.yaml</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="训练参数"><a href="#训练参数" class="headerlink" title="训练参数"></a>训练参数</h2><p>Training Settings</p>
+<p>Before modifying anything, first train with default settings to establish a performance baseline. A full list of train.py settings can be found in the train.py argparser.</p>
+<ul>
+<li><strong>Epochs</strong>. Start with 300 epochs. If this overfits early then you can reduce epochs. If overfitting does not occur after 300 epochs, train longer, i.e. 600, 1200 etc epochs.</li>
+<li><strong>Image size</strong>. COCO trains at native resolution of <code>--img 640</code>, though due to the high amount of small objects in the dataset it can benefit from training at higher resolutions such as <code>--img 1280</code>. If there are many <strong>small objects</strong> then custom datasets will benefit from training at native or higher resolution. Best inference results are obtained at the same —img as the training was run at, i.e. if you train at <code>--img 1280</code> you should also test and detect at <code>--img 1280</code>.</li>
+<li><strong>Batch size</strong>. Use the largest <code>--batch-size</code> that your hardware allows for. Small batch sizes produce poor batchnorm statistics and should be avoided.</li>
+<li><strong>Hyperparameters</strong>. Default hyperparameters are in <a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/blob/master/data/hyp.scratch.yaml">hyp.scratch.yaml</a>. We recommend you train with default hyperparameters first before thinking of modifying any. In general, <em>increasing augmentation hyperparameters will reduce and delay overfitting, allowing for longer trainings and higher final mAP</em>. Reduction in loss component gain hyperparameters like <code>hyp[&#39;obj&#39;]</code> will help reduce overfitting in those specific loss components. For an automated method of optimizing these hyperparameters, see our <a target="_blank" rel="noopener" href="https://github.com/ultralytics/yolov5/issues/607">Hyperparameter Evolution Tutorial</a>.</li>
+</ul>
+<p>参考^[<a target="_blank" rel="noopener" href="https://docs.ultralytics.com/tutorials/train-custom-datasets/">https://docs.ultralytics.com/tutorials/train-custom-datasets/</a>]</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Takeaways"><span class="toc-number">1.</span> <span class="toc-text">Takeaways</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B-https-docs-ultralytics-com-quick-start"><span class="toc-number">2.</span> <span class="toc-text">快速上手^[https:&#x2F;&#x2F;docs.ultralytics.com&#x2F;quick-start&#x2F;]</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Inference"><span class="toc-number">3.</span> <span class="toc-text">Inference</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Training"><span class="toc-number">4.</span> <span class="toc-text">Training</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E5%86%99yaml%E6%96%87%E4%BB%B6"><span class="toc-number">4.1.</span> <span class="toc-text">编写yaml文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8E%B7%E5%BE%97%E6%A0%87%E7%AD%BE"><span class="toc-number">4.2.</span> <span class="toc-text">获得标签</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E5%8C%96label%E6%A0%BC%E5%BC%8F%EF%BC%88%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">转化label格式（如果需要）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E7%90%86%E7%9B%AE%E5%BD%95"><span class="toc-number">4.4.</span> <span class="toc-text">整理目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Training-1"><span class="toc-number">4.5.</span> <span class="toc-text">Training</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E8%AE%AD%E7%BB%83%E3%80%81%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">4.6.</span> <span class="toc-text">查看训练、可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#wandb"><span class="toc-number">4.6.1.</span> <span class="toc-text">wandb</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tensorboard"><span class="toc-number">4.6.2.</span> <span class="toc-text">tensorboard</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9B%B4%E9%AB%98%E8%AE%AD%E7%BB%83%E7%BB%93%E6%9E%9Ctips"><span class="toc-number">5.</span> <span class="toc-text">更高训练结果tips</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86%E6%94%B9%E8%BF%9B%E7%82%B9"><span class="toc-number">5.1.</span> <span class="toc-text">数据集改进点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%80%89%E6%8B%A9"><span class="toc-number">5.2.</span> <span class="toc-text">模型选择</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E5%8F%82%E6%95%B0"><span class="toc-number">5.3.</span> <span class="toc-text">训练参数</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2020/09/04/yolov5_takeaway/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&text=YOLOv5 quick start"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&is_video=false&description=YOLOv5 quick start"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=YOLOv5 quick start&body=Check out this article: https://yonggie.github.io/2020/09/04/yolov5_takeaway/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&title=YOLOv5 quick start"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&name=YOLOv5 quick start&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2020/09/04/yolov5_takeaway/&t=YOLOv5 quick start"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

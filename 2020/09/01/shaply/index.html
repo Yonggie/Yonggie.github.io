@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Measure Contribution of Participants in Federated Learning2020-03-27 Paper link BASICbackgroud: federated learningtwo measure methods exist, deletion diagnostics and influence functions SHAPLEY VALUE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="measure the contribution:shaply value">
+<meta property="og:url" content="https://yonggie.github.io/2020/09/01/shaply/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="Measure Contribution of Participants in Federated Learning2020-03-27 Paper link BASICbackgroud: federated learningtwo measure methods exist, deletion diagnostics and influence functions SHAPLEY VALUE">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-01T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-02-22T09:01:57.373Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>measure the contribution:shaply value</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2020/09/01/moving_average/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2020/09/01/yolo/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2020/09/01/shaply/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2020/09/01/shaply/&text=measure the contribution:shaply value"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2020/09/01/shaply/&is_video=false&description=measure the contribution:shaply value"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=measure the contribution:shaply value&body=Check out this article: https://yonggie.github.io/2020/09/01/shaply/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2020/09/01/shaply/&name=measure the contribution:shaply value&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2020/09/01/shaply/&t=measure the contribution:shaply value"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#BASIC"><span class="toc-number">1.</span> <span class="toc-text">BASIC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION"><span class="toc-number">2.</span> <span class="toc-text">SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Example"><span class="toc-number">2.1.</span> <span class="toc-text">Example:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Marginal-Contribution"><span class="toc-number">3.</span> <span class="toc-text">Marginal Contribution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shapley-Value"><span class="toc-number">4.</span> <span class="toc-text">Shapley Value</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PAPER-METHOD"><span class="toc-number">5.</span> <span class="toc-text">PAPER METHOD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Horizontal-Measurement"><span class="toc-number">5.1.</span> <span class="toc-text">Horizontal Measurement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vertical-Measurement"><span class="toc-number">5.2.</span> <span class="toc-text">Vertical Measurement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Individual-Feature-Shaley-Value"><span class="toc-number">5.3.</span> <span class="toc-text">Individual Feature Shaley Value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dataset-Feature-Shaley-Value"><span class="toc-number">5.4.</span> <span class="toc-text">Dataset Feature Shaley Value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Federated-Learning-Feature-Shaley-Value"><span class="toc-number">5.5.</span> <span class="toc-text">Federated Learning Feature Shaley Value</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        measure the contribution:shaply value
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2020-09-01T08:14:38.000Z" itemprop="datePublished">2020-09-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Measure Contribution of Participants in Federated Learning<br>2020-03-27</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1909.08525v1.pdf">Paper link</a></p>
+<h1 id="BASIC"><a href="#BASIC" class="headerlink" title="BASIC"></a>BASIC</h1><p>backgroud: federated learning<br>two measure methods exist, deletion <a target="_blank" rel="noopener" href="https://www.ime.usp.br/~abe/lista/pdfWiH1zqnMHo.pdf">diagnostics</a> and <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1703.04730.pdf">influence functions</a></p>
+<h1 id="SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION"><a href="#SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION" class="headerlink" title="SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION"></a>SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION</h1><p>it’s used to split profit earned by all participants.</p>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h2><p>We need to kill 500 monsters in total. A alone can kill 100; B alone can kill 125; C alone can kill 50. A and B together can kill 270; B and C together can kill 350; A and C together can kill 375; A and B and C together can kill 500 in total.<br>We denote what mentioned above as:<br>v(1)=100;</p>
+<p>v(2)=125; v(3)=50;<br>v(1,2)=270; v(2,3)=350; v(1,3)=375;<br>v(1,2,3)=500;</p>
+<p>Note that the task can only be accomplished by three people.<br>possible cases might be 6 in total:<br>A invites B to make a group S and then invites C.<br>A invites C to make a group S and then invites B.<br>etc etc.</p>
+<h1 id="Marginal-Contribution"><a href="#Marginal-Contribution" class="headerlink" title="Marginal Contribution"></a>Marginal Contribution</h1><p>The marginal contribution splitted of this 6 cases should be calculated as this as shown in the table.<br>image<br>so the marginal contribution is formulated as: $δ_i(S)=v(S\cup i)−v(S)$<br>, where $δ$ denote the influence/contribution factor, $δ_i(S)$ denotes the ith participant’s contribution to group S.<br>From the discussion we can know that the order of the participants really matters in term of marginal contribution.</p>
+<h1 id="Shapley-Value"><a href="#Shapley-Value" class="headerlink" title="Shapley Value"></a>Shapley Value</h1><p>shapley value takes high importance on marginal contribution(边际贡献 in chinese), which is formulated as</p>
+<script type="math/tex; mode=display">Sh(S,i)=\frac{Σ_{r∈R}δ_i(r)}{|Ag|!}</script><p>where $|Ag|$ denotes the number of agants who participates; R denotes the set of all possible cases, r denotes one specific case that belong to whole set R;<br>According to the shapley value equation, we calculate agants’ value as followed:<br>1： 16(100+100+145+150+325+150)=9706<br>2： 16(170+125+125+125+125+300)=9706<br>3： 16(230+275+230+225+50+50)=10606</p>
+<p>1 2 3 total is 500.<br>and then they can split the profit according to the shapley value.</p>
+<h1 id="PAPER-METHOD"><a href="#PAPER-METHOD" class="headerlink" title="PAPER METHOD"></a>PAPER METHOD</h1><h2 id="Horizontal-Measurement"><a href="#Horizontal-Measurement" class="headerlink" title="Horizontal Measurement"></a>Horizontal Measurement</h2><p>Deletion diagnostics is intuitive. Retrain the model each time with an instance omitted from training dataset and measure how much the prediction of retrained model changes.</p>
+<p>Suppose we omit the $i$th instance, or rather one piece of data, influence is formulated as:</p>
+<script type="math/tex; mode=display">Influence(i)=\frac1nΣ^n_{j=i}|predj−pred−ij|</script><p>And any dataset had many instance, so the dataset influence can be discribed as:</p>
+<script type="math/tex; mode=display">Influence(D)=Σ_{i∈D}Influence(D_i)</script><p>where $Di$ means the $i$th instance in dataset.</p>
+<h2 id="Vertical-Measurement"><a href="#Vertical-Measurement" class="headerlink" title="Vertical Measurement"></a>Vertical Measurement</h2><p>coeffient<br>Questions tbd: what is situational importance?<br>It’s an ancient question coming up a long time ago, and there’re pretty many paper about this question. Most of them applied shapley value as measurement to get vertical FML contribution of each party.</p>
+<p>We first take a easy example and then we generalize the situation.</p>
+<h2 id="Individual-Feature-Shaley-Value"><a href="#Individual-Feature-Shaley-Value" class="headerlink" title="Individual Feature Shaley Value"></a>Individual Feature Shaley Value</h2><p>Note: we are now in INSTANCE level! We are talking about ONE SINGLE INSTANCE, one piece of data.<br>Consider an instance with total n features, what is the contribution of one specific feature value?<br>Suppose to calculate the contribution of the ith<br>feature, we go like this:</p>
+<script type="math/tex; mode=display">ϕ_i(x)=Σ_{Q∈S∖i}\frac{|Q|!(|S|−|Q|−1)!}{|S|!}(Δ_{Q\cup i}−Δ_Q)</script><p>where S is the index set of all feature, Q is a index subset, |.| denotes the number of . .<br>By observation, we can see that right part of the equation is the influence difference between subset with ith and subset without ith</p>
+<p>while the left part is just a coeffient to average the influence.</p>
+<h2 id="Dataset-Feature-Shaley-Value"><a href="#Dataset-Feature-Shaley-Value" class="headerlink" title="Dataset Feature Shaley Value"></a>Dataset Feature Shaley Value</h2><p>We are coming into DATASET LEVEL.<br>Although the method mentioned above gives a strong sulotion to get contribution of individual feature, but with so many data in a dataset, computing has a exponential time complexity, making it infeasible to implement in practice.<br>An approximation with Monto-Carlo Sampling algorithm has been proposed in <a target="_blank" rel="noopener" href="https://link.springer.com/article/10.1007/s10115-013-0679-x">this paper</a>:</p>
+<script type="math/tex; mode=display">ϕ_i(x)=\frac1M\sum^M_{m=1}(f(x^m_{+i})−f(x^{m}_{−i}))</script><p>where $M$ is the iteration number, which is customized by user; $x^{m}<em>{−i}$ is subset with random feature replaced by randomly picked instance from dataset, and WITHOUT ith feature; $x^m</em>{+i}$ is everything the same as $x^{m}_{−i}$ but WITH ith feature.</p>
+<p>To summarize, the sampling method helps simplify computing making it feasible to perform contribution algorithm in dataset level.</p>
+<h2 id="Federated-Learning-Feature-Shaley-Value"><a href="#Federated-Learning-Feature-Shaley-Value" class="headerlink" title="Federated Learning Feature Shaley Value"></a>Federated Learning Feature Shaley Value</h2><p>This is the paper method proposed by the author.</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#BASIC"><span class="toc-number">1.</span> <span class="toc-text">BASIC</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SHAPLEY-VALUE-amp-MARIGINAL-CONTRIBUTION"><span class="toc-number">2.</span> <span class="toc-text">SHAPLEY VALUE &amp; MARIGINAL CONTRIBUTION</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Example"><span class="toc-number">2.1.</span> <span class="toc-text">Example:</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Marginal-Contribution"><span class="toc-number">3.</span> <span class="toc-text">Marginal Contribution</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Shapley-Value"><span class="toc-number">4.</span> <span class="toc-text">Shapley Value</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PAPER-METHOD"><span class="toc-number">5.</span> <span class="toc-text">PAPER METHOD</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Horizontal-Measurement"><span class="toc-number">5.1.</span> <span class="toc-text">Horizontal Measurement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vertical-Measurement"><span class="toc-number">5.2.</span> <span class="toc-text">Vertical Measurement</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Individual-Feature-Shaley-Value"><span class="toc-number">5.3.</span> <span class="toc-text">Individual Feature Shaley Value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dataset-Feature-Shaley-Value"><span class="toc-number">5.4.</span> <span class="toc-text">Dataset Feature Shaley Value</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Federated-Learning-Feature-Shaley-Value"><span class="toc-number">5.5.</span> <span class="toc-text">Federated Learning Feature Shaley Value</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2020/09/01/shaply/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2020/09/01/shaply/&text=measure the contribution:shaply value"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2020/09/01/shaply/&is_video=false&description=measure the contribution:shaply value"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=measure the contribution:shaply value&body=Check out this article: https://yonggie.github.io/2020/09/01/shaply/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2020/09/01/shaply/&title=measure the contribution:shaply value"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2020/09/01/shaply/&name=measure the contribution:shaply value&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2020/09/01/shaply/&t=measure the contribution:shaply value"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

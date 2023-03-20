@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="tokenizer对于sentence要先分词，对每个词做一个word embedding，这个过程叫tokenize，所以用tokenizer这个类。 那对于中文来说，选用什么tokenizer好？可以见https:&#x2F;&#x2F;github.com&#x2F;lonePatient&#x2F;awesome-pretrained-chinese-nlp-models 假定我要用nlptown&#x2F;bert-base-multi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="huggingface real quickstart">
+<meta property="og:url" content="https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="tokenizer对于sentence要先分词，对每个词做一个word embedding，这个过程叫tokenize，所以用tokenizer这个类。 那对于中文来说，选用什么tokenizer好？可以见https:&#x2F;&#x2F;github.com&#x2F;lonePatient&#x2F;awesome-pretrained-chinese-nlp-models 假定我要用nlptown&#x2F;bert-base-multi">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/5e90887ff51a4beabca663284031a105.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2ff024ae7128472097b46fcaabaa55a4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/d2087de320d645a999c0608353c3470a.png">
+<meta property="article:published_time" content="2022-10-10T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-02-22T09:01:57.373Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/5e90887ff51a4beabca663284031a105.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>huggingface real quickstart</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/10/11/chinese_sentence_sim/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/09/18/chinese_seg/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&text=huggingface real quickstart"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&is_video=false&description=huggingface real quickstart"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=huggingface real quickstart&body=Check out this article: https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&name=huggingface real quickstart&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&t=huggingface real quickstart"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tokenizer"><span class="toc-number">1.</span> <span class="toc-text">tokenizer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E6%96%87tokenizer"><span class="toc-number">2.</span> <span class="toc-text">中文tokenizer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#model"><span class="toc-number">3.</span> <span class="toc-text">model</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        huggingface real quickstart
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-10T08:14:38.000Z" itemprop="datePublished">2022-10-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="tokenizer"><a href="#tokenizer" class="headerlink" title="tokenizer"></a>tokenizer</h1><p>对于sentence要先分词，对每个词做一个word embedding，这个过程叫tokenize，所以用tokenizer这个类。</p>
+<p>那对于中文来说，选用什么tokenizer好？<br>可以见<a target="_blank" rel="noopener" href="https://github.com/lonePatient/awesome-pretrained-chinese-nlp-models">https://github.com/lonePatient/awesome-pretrained-chinese-nlp-models</a></p>
+<p>假定我要用<code>nlptown/bert-base-multilingual-uncased-sentiment</code>这个模型，则<code>from_pretrain</code>是很重要的方法，你需要传入一个mode id来确定tokenizer的适配的模型。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer</span><br><span class="line"></span><br><span class="line">model_name = <span class="string">&quot;nlptown/bert-base-multilingual-uncased-sentiment&quot;</span></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(model_name)</span><br><span class="line">encoding = tokenizer(<span class="string">&quot;We are very happy to show you the 🤗 Transformers library.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(encoding)</span><br></pre></td></tr></table></figure></p>
+<p>那如何确定选用的model是否在huggingface的transformer库里面？<a target="_blank" rel="noopener" href="https://huggingface.co/docs/transformers/v4.22.2/en/model_doc/auto#transformers.AutoTokenizer.from_pretrained.pretrained_model_name_or_path">可详见这里</a><br><img src="https://img-blog.csdnimg.cn/5e90887ff51a4beabca663284031a105.png" alt="在这里插入图片描述">对于<code>model id</code>，去huggingface documentation，界面中<br><img src="https://img-blog.csdnimg.cn/2ff024ae7128472097b46fcaabaa55a4.png" alt="在这里插入图片描述">就可以找得到<code>model id</code>了，点开后左侧有各种选项，太全了，他真的，我哭死……<br><img src="https://img-blog.csdnimg.cn/d2087de320d645a999c0608353c3470a.png" alt="在这里插入图片描述"></p>
+<h1 id="中文tokenizer"><a href="#中文tokenizer" class="headerlink" title="中文tokenizer"></a>中文tokenizer</h1><p>以<code>ckiplab/albert-base-chinese-ner</code>为例</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AlbertTokenizer,AlbertModel,AutoTokenizer</span><br><span class="line"></span><br><span class="line">tokenizer=AutoTokenizer.from_pretrained(<span class="string">&#x27;ckiplab/albert-base-chinese-ner&#x27;</span>)</span><br><span class="line">encoding=tokenizer.encode(<span class="string">&#x27;我草你是真的牛逼&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(encoding)</span><br><span class="line"><span class="built_in">print</span>(tokenizer.decode(encoding))</span><br></pre></td></tr></table></figure>
+<p>输出<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[101, 2769, 5770, 872, 3221, 4696, 4638, 4281, 6873, 102]</span><br><span class="line">[CLS] 我 草 你 是 真 的 牛 逼 [SEP]</span><br></pre></td></tr></table></figure><br>可以看到每个词对应了vocab里面的一个id，整个句子已经被tokenize了。（中文里不一定一个id都只对应一个字哦，也可能一个id对应2个字。）</p>
+<h1 id="model"><a href="#model" class="headerlink" title="model"></a>model</h1><p>选定任务（从左侧的tag里面）后，类似的，model里面也有<code>AutoModel+任务名称</code>类，也是调用from_pretrain，model id写一样的就可以了。<br>以NER任务为例，左边tag的名字叫TokenClassification，导入<code>AutoModelForTokenClassification</code>，然后<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sentence=<span class="string">&#x27;舌质淡红，苔薄白，右侧瘀斑较淡。&#x27;</span></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForTokenClassification,AutoTokenizer</span><br><span class="line"></span><br><span class="line">tokenizer=AutoTokenizer.from_pretrained(<span class="string">&#x27;ckiplab/albert-base-chinese-ner&#x27;</span>)</span><br><span class="line">encoding=tokenizer(<span class="string">&#x27;舌质淡红，苔薄白，右侧瘀斑较淡。&#x27;</span>,return_tensors=<span class="string">&#x27;pt&#x27;</span>)</span><br><span class="line"></span><br><span class="line">model = AutoModelForTokenClassification.from_pretrained(<span class="string">&quot;ckiplab/albert-base-chinese-ner&quot;</span>)</span><br><span class="line">results=model(**encoding)</span><br><span class="line"><span class="built_in">print</span>(results)</span><br></pre></td></tr></table></figure></p>
+<p>注意tokenizer和model的<code>from_pretrain</code>的<code>model id</code>参数要对应一致。</p>
+<p>from_pretrained下载的东西在哪里？<br>linux上，在<code>/home/yourname/.cache/torch/transformers</code>，所以如果网络不好，可以手动下载后放入那里。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tokenizer"><span class="toc-number">1.</span> <span class="toc-text">tokenizer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E6%96%87tokenizer"><span class="toc-number">2.</span> <span class="toc-text">中文tokenizer</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#model"><span class="toc-number">3.</span> <span class="toc-text">model</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&text=huggingface real quickstart"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&is_video=false&description=huggingface real quickstart"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=huggingface real quickstart&body=Check out this article: https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&title=huggingface real quickstart"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&name=huggingface real quickstart&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/10/10/huggingface_transformer_real_quickstart/&t=huggingface real quickstart"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

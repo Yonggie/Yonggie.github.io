@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="背景最近要做一个文本到graph的数据集，里面有不少不同字但同义的小文本段，想简单用文本相似度的方式把他们归到一类里面。 方式 直接调用hanlp的sentence sim，帮忙解决 用中文transformer做sentence embedding，后用距离函数设定阈值解决。 直接用hugging face的transformer的高级api，也是直接端到端帮忙解决。  Hanlp根据这里，pi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中文近义短语合并实验">
+<meta property="og:url" content="https://yonggie.github.io/2022/10/11/chinese_sentence_sim/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="背景最近要做一个文本到graph的数据集，里面有不少不同字但同义的小文本段，想简单用文本相似度的方式把他们归到一类里面。 方式 直接调用hanlp的sentence sim，帮忙解决 用中文transformer做sentence embedding，后用距离函数设定阈值解决。 直接用hugging face的transformer的高级api，也是直接端到端帮忙解决。  Hanlp根据这里，pi">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fe47ba1ff779430d98d1f07316698603.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2944ceb230cf4fc6add2c5af96e9d1a2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/24e6fd72e857482180b8b01da8140d11.png">
+<meta property="article:published_time" content="2022-10-11T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-02-22T09:01:57.371Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/fe47ba1ff779430d98d1f07316698603.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>中文近义短语合并实验</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/10/18/graph_dataset/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/10/10/huggingface_transformer_real_quickstart/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&text=中文近义短语合并实验"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&is_video=false&description=中文近义短语合并实验"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中文近义短语合并实验&body=Check out this article: https://yonggie.github.io/2022/10/11/chinese_sentence_sim/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&name=中文近义短语合并实验&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&t=中文近义短语合并实验"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hanlp"><span class="toc-number">3.</span> <span class="toc-text">Hanlp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transformer-end2end"><span class="toc-number">4.</span> <span class="toc-text">transformer end2end</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transformer-sentence-embedding"><span class="toc-number">5.</span> <span class="toc-text">transformer sentence embedding</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E9%99%84%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text">最后附处理的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hanlp"><span class="toc-number">6.1.</span> <span class="toc-text">hanlp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer-sentence-embedding-1"><span class="toc-number">6.2.</span> <span class="toc-text">transformer sentence embedding</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        中文近义短语合并实验
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-10-11T08:14:38.000Z" itemprop="datePublished">2022-10-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近要做一个文本到graph的数据集，里面有不少不同字但同义的小文本段，想简单用文本相似度的方式把他们归到一类里面。</p>
+<h1 id="方式"><a href="#方式" class="headerlink" title="方式"></a>方式</h1><ol>
+<li>直接调用hanlp的sentence sim，帮忙解决</li>
+<li>用中文transformer做sentence embedding，后用距离函数设定阈值解决。</li>
+<li>直接用hugging face的transformer的高级api，也是直接端到端帮忙解决。</li>
+</ol>
+<h1 id="Hanlp"><a href="#Hanlp" class="headerlink" title="Hanlp"></a>Hanlp</h1><p>根据<a target="_blank" rel="noopener" href="https://github.com/hankcs/HanLP/blob/doc-zh/plugins/hanlp_demo/hanlp_demo/zh/sts_stl.ipynb">这里</a>，<code>pip install hanlp</code>后，直接<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hanlp</span><br><span class="line">sts = hanlp.load(hanlp.pretrained.sts.STS_ELECTRA_BASE_ZH)</span><br><span class="line"></span><br><span class="line">sentence_list=make_sentence_list()</span><br><span class="line"><span class="comment"># sentence_list=[</span></span><br><span class="line"><span class="comment">#     (&#x27;看图猜一电影名&#x27;, &#x27;看图猜电影&#x27;),</span></span><br><span class="line"><span class="comment">#     (&#x27;无线路由器怎么无线上网&#x27;, &#x27;无线上网卡和无线路由器怎么用&#x27;),</span></span><br><span class="line"><span class="comment">#     (&#x27;北京到上海的动车票&#x27;, &#x27;上海到北京的动车票&#x27;),</span></span><br><span class="line"><span class="comment"># ]</span></span><br><span class="line">res=sts(sentence_list)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(res)</span><br></pre></td></tr></table></figure></p>
+<p>该说不说，我一共才1k左右个小句子，共$C_{1900}^2$个，inference竟然用时58.48093847433726分钟，太慢了！！</p>
+<h1 id="transformer-end2end"><a href="#transformer-end2end" class="headerlink" title="transformer end2end"></a>transformer end2end</h1><p><code>pip install transformer</code>后，<br>本来想偷懒直接用pipeline的，<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForTokenClassification,AutoTokenizer,pipeline</span><br><span class="line">model_id=<span class="string">&#x27;uer/sbert-base-chinese-nli&#x27;</span></span><br><span class="line">scorer=pipeline(<span class="string">&quot;sentence-similarity&quot;</span>,model=model_id)</span><br></pre></td></tr></table></figure><br>但是报错，嘻嘻：<br><code>&quot;Unknown task sentence-similarity, available tasks are [&#39;audio-classification&#39;, &#39;automatic-speech-recognition&#39;, &#39;conversational&#39;, &#39;document-question-answering&#39;, &#39;feature-extraction&#39;, &#39;fill-mask&#39;, &#39;image-classification&#39;, &#39;image-segmentation&#39;, &#39;image-to-text&#39;, &#39;ner&#39;, &#39;object-detection&#39;, &#39;question-answering&#39;, &#39;sentiment-analysis&#39;, &#39;summarization&#39;, &#39;table-question-answering&#39;, &#39;text-classification&#39;, &#39;text-generation&#39;, &#39;text2text-generation&#39;, &#39;token-classification&#39;, &#39;translation&#39;, &#39;visual-question-answering&#39;, &#39;vqa&#39;, &#39;zero-shot-classification&#39;, &#39;zero-shot-image-classification&#39;, &#39;translation_XX_to_YY&#39;]&quot;</code><br>行吧，再偷懒下，看看能不能autotokenizer和automodel解决。</p>
+<p>根据我的<a href="https://yonggie.github.io/2022/10/11/huggingface_transformer_real_quickstart/">这篇教程</a>，找到对应任务后选择model id。<br>找到后，只有两个模型……好家伙，够少的。怎么连个example也没有……<br><img src="https://img-blog.csdnimg.cn/fe47ba1ff779430d98d1f07316698603.png" alt="在这里插入图片描述"><br>随便选择一个，然后看下其他语言的sentence similarity的example：<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> scipy.spatial.distance <span class="keyword">import</span> cosine</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the model</span></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(<span class="string">&quot;johngiorgi/declutr-small&quot;</span>)</span><br><span class="line">model = AutoModel.from_pretrained(<span class="string">&quot;johngiorgi/declutr-small&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Prepare some text to embed</span></span><br><span class="line">text = [</span><br><span class="line">    <span class="string">&quot;A smiling costumed woman is holding an umbrella.&quot;</span>,</span><br><span class="line">    <span class="string">&quot;A happy woman in a fairy costume holds an umbrella.&quot;</span>,</span><br><span class="line">]</span><br><span class="line">inputs = tokenizer(text, padding=<span class="literal">True</span>, truncation=<span class="literal">True</span>, return_tensors=<span class="string">&quot;pt&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embed the text</span></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    sequence_output = model(**inputs)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Mean pool the token-level embeddings to get sentence-level embeddings</span></span><br><span class="line">embeddings = torch.<span class="built_in">sum</span>(</span><br><span class="line">    sequence_output * inputs[<span class="string">&quot;attention_mask&quot;</span>].unsqueeze(-<span class="number">1</span>), dim=<span class="number">1</span></span><br><span class="line">) / torch.clamp(torch.<span class="built_in">sum</span>(inputs[<span class="string">&quot;attention_mask&quot;</span>], dim=<span class="number">1</span>, keepdims=<span class="literal">True</span>), <span class="built_in">min</span>=<span class="number">1e-9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute a semantic similarity via the cosine distance</span></span><br><span class="line">semantic_sim = <span class="number">1</span> - cosine(embeddings[<span class="number">0</span>], embeddings[<span class="number">1</span>])</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<p>woc，明面上写的是end2end，结果还是只返回sentence embedding……<br><strong>根本是假的端到端……</strong></p>
+<h1 id="transformer-sentence-embedding"><a href="#transformer-sentence-embedding" class="headerlink" title="transformer sentence embedding"></a>transformer sentence embedding</h1><p>既然是假的端到端，那没必要选择特定task的model了。<br>例子上一部分已经给出来了，很棒！换个model id就行了，看看？<br><img src="https://img-blog.csdnimg.cn/2944ceb230cf4fc6add2c5af96e9d1a2.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/24e6fd72e857482180b8b01da8140d11.png" alt="在这里插入图片描述"><br>有那么点意思哈，把阈值放低些可以看看。<br>到此，处理部分就结束了。<br>接下来就是人工设置阈值，合并了。</p>
+<h1 id="最后附处理的代码"><a href="#最后附处理的代码" class="headerlink" title="最后附处理的代码"></a>最后附处理的代码</h1><h2 id="hanlp"><a href="#hanlp" class="headerlink" title="hanlp"></a>hanlp</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hanlp</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> combinations</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_sentence_list</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;making sentence pair, waiting...&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    node_storage=pickle.load(<span class="built_in">open</span>(<span class="string">&#x27;path.pkl&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>))</span><br><span class="line">    syndromes=node_storage[<span class="string">&#x27;syndrome&#x27;</span>]</span><br><span class="line">    sentence_list=[]</span><br><span class="line">    <span class="keyword">for</span> sentence_pair <span class="keyword">in</span> combinations(syndromes,<span class="number">2</span>):</span><br><span class="line">        sentence_list.append(sentence_pair)</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;pairs prepared&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> sentence_list</span><br><span class="line"></span><br><span class="line">scorer = hanlp.load(hanlp.pretrained.sts.STS_ELECTRA_BASE_ZH)</span><br><span class="line"></span><br><span class="line">sentence_list=make_sentence_list()</span><br><span class="line"><span class="comment"># sentence_list=[</span></span><br><span class="line"><span class="comment">#     (&#x27;看图猜一电影名&#x27;, &#x27;看图猜电影&#x27;),</span></span><br><span class="line"><span class="comment">#     (&#x27;无线路由器怎么无线上网&#x27;, &#x27;无线上网卡和无线路由器怎么用&#x27;),</span></span><br><span class="line"><span class="comment">#     (&#x27;北京到上海的动车票&#x27;, &#x27;上海到北京的动车票&#x27;),</span></span><br><span class="line"><span class="comment"># ]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;inferencing...&#x27;</span>)</span><br><span class="line">T1 = time.time()</span><br><span class="line">res=scorer(sentence_list)</span><br><span class="line">T2=time.time()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;inference done, time:<span class="subst">&#123;(T2-T1)/<span class="number">60</span>&#125;</span>min&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(res)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="transformer-sentence-embedding-1"><a href="#transformer-sentence-embedding-1" class="headerlink" title="transformer sentence embedding"></a>transformer sentence embedding</h2><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> combinations</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load the model</span></span><br><span class="line">model_id=<span class="string">&#x27;bert-base-chinese&#x27;</span></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(model_id)</span><br><span class="line"></span><br><span class="line">model = AutoModel.from_pretrained(model_id)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Prepare some text to embed</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">make_sentence_list</span>():</span><br><span class="line">    </span><br><span class="line">    node_storage=pickle.load(<span class="built_in">open</span>(<span class="string">&#x27;path.pkl&#x27;</span>,<span class="string">&#x27;rb&#x27;</span>))</span><br><span class="line">    syndromes=<span class="built_in">sorted</span>(<span class="built_in">list</span>(node_storage[<span class="string">&#x27;syndrome&#x27;</span>]))</span><br><span class="line">    <span class="comment"># sentence_list=[]</span></span><br><span class="line">    <span class="comment"># for sentence_pair in combinations(syndromes,2):</span></span><br><span class="line">    <span class="comment">#     sentence_list.append(sentence_pair)</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> syndromes</span><br><span class="line"></span><br><span class="line">text = make_sentence_list()</span><br><span class="line">input_data = tokenizer(text, padding=<span class="literal">True</span>, truncation=<span class="literal">True</span>, return_tensors=<span class="string">&quot;pt&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Embed the text</span></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    sequence_output = model(**input_data)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># Mean pool the token-level embeddings to get sentence-level embeddings</span></span><br><span class="line">embeddings = torch.<span class="built_in">sum</span>(</span><br><span class="line">    sequence_output * input_data[<span class="string">&quot;attention_mask&quot;</span>].unsqueeze(-<span class="number">1</span>), dim=<span class="number">1</span></span><br><span class="line">) / torch.clamp(torch.<span class="built_in">sum</span>(input_data[<span class="string">&quot;attention_mask&quot;</span>], dim=<span class="number">1</span>, keepdims=<span class="literal">True</span>), <span class="built_in">min</span>=<span class="number">1e-9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compute a semantic similarity via the cosine distance</span></span><br><span class="line"><span class="comment"># coss = torch.cosine_similarity(embeddings.unsqueeze(1),embeddings.unsqueeze(0),dim=-1)</span></span><br><span class="line">idxs=<span class="built_in">list</span>(<span class="built_in">range</span>(<span class="built_in">len</span>(embeddings)))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;calculating cosine similarity...&#x27;</span>)</span><br><span class="line">T1 = time.time()</span><br><span class="line">sentence_pair2cos=&#123;&#125;</span><br><span class="line"><span class="keyword">for</span> idx1,idx2 <span class="keyword">in</span> combinations(idxs,<span class="number">2</span>):</span><br><span class="line">    cos=torch.cosine_similarity(embeddings[idx1].unsqueeze(<span class="number">0</span>),embeddings[idx2].unsqueeze(<span class="number">0</span>)).item()</span><br><span class="line">    sentence_pair2cos[(text[idx1],text[idx2])]=cos</span><br><span class="line">T2=time.time()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;time:<span class="subst">&#123;T2-T1&#125;</span>sec\n\nSaving similarity as dict&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 太多、太慢。</span></span><br><span class="line"><span class="comment"># with open(&#x27;sentence_sim.dict&#x27;,&#x27;w&#x27;) as f:</span></span><br><span class="line"><span class="comment">#     f.write(&#x27;&#123;\n&#x27;)</span></span><br><span class="line"><span class="comment">#     for k,v in sentence_pair2cos.items():</span></span><br><span class="line"><span class="comment">#         f.write(f&quot;&#123;k&#125;:&#123;v&#125;,\n&quot;)</span></span><br><span class="line"><span class="comment">#     f.write(&#x27;&#125;\n&#x27;)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;sentence_sim_dict.pkl&#x27;</span>,<span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    pickle.dump(sentence_pair2cos,f)</span><br><span class="line"><span class="comment"># print(coss.shape)</span></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">方式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Hanlp"><span class="toc-number">3.</span> <span class="toc-text">Hanlp</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transformer-end2end"><span class="toc-number">4.</span> <span class="toc-text">transformer end2end</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#transformer-sentence-embedding"><span class="toc-number">5.</span> <span class="toc-text">transformer sentence embedding</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%E9%99%84%E5%A4%84%E7%90%86%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text">最后附处理的代码</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hanlp"><span class="toc-number">6.1.</span> <span class="toc-text">hanlp</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transformer-sentence-embedding-1"><span class="toc-number">6.2.</span> <span class="toc-text">transformer sentence embedding</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&text=中文近义短语合并实验"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&is_video=false&description=中文近义短语合并实验"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=中文近义短语合并实验&body=Check out this article: https://yonggie.github.io/2022/10/11/chinese_sentence_sim/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&title=中文近义短语合并实验"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&name=中文近义短语合并实验&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/10/11/chinese_sentence_sim/&t=中文近义短语合并实验"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

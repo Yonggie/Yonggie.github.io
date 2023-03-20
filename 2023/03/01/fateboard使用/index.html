@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="fateboard文档 https:&#x2F;&#x2F;fate.fedai.org&#x2F;fateboard&#x2F;github Fateboard文档 https:&#x2F;&#x2F;github.com&#x2F;FederatedAI&#x2F;FATE-Board&#x2F;blob&#x2F;master&#x2F;README-CN.md 背景Fateboard是FATE框架的任务看板。在配置FATE时，Fateboard一般是被安装好了的，安装过程查看这里ATEBoard代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fateboard的使用">
+<meta property="og:url" content="https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="fateboard文档 https:&#x2F;&#x2F;fate.fedai.org&#x2F;fateboard&#x2F;github Fateboard文档 https:&#x2F;&#x2F;github.com&#x2F;FederatedAI&#x2F;FATE-Board&#x2F;blob&#x2F;master&#x2F;README-CN.md 背景Fateboard是FATE框架的任务看板。在配置FATE时，Fateboard一般是被安装好了的，安装过程查看这里ATEBoard代">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/3163acf1d2db45df872c8d1c21e7b63f.png">
+<meta property="article:published_time" content="2023-03-01T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-03-02T09:37:51.571Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/3163acf1d2db45df872c8d1c21e7b63f.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>fateboard的使用</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&text=fateboard的使用"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&is_video=false&description=fateboard的使用"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=fateboard的使用&body=Check out this article: https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&name=fateboard的使用&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&t=fateboard的使用"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8fateboard%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">启动fateboard服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%90%8E%EF%BC%8C%E7%BD%91%E9%A1%B5%E8%AE%BF%E9%97%AE"><span class="toc-number">3.</span> <span class="toc-text">启动服务后，网页访问</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        fateboard的使用
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-03-01T08:14:38.000Z" itemprop="datePublished">2023-03-01</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>fateboard文档 <a target="_blank" rel="noopener" href="https://fate.fedai.org/fateboard/">https://fate.fedai.org/fateboard/</a><br>github Fateboard文档 <a target="_blank" rel="noopener" href="https://github.com/FederatedAI/FATE-Board/blob/master/README-CN.md">https://github.com/FederatedAI/FATE-Board/blob/master/README-CN.md</a></p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>Fateboard是FATE框架的任务看板。<br>在配置FATE时，Fateboard一般是被安装好了的，安装过程查看<a href="">这里</a><br>ATEBoard代码使用spring-boot框架并嵌入在tomcat容器中，默认的网络端口是8080，所以还要稍微懂点java。<br>我自己并没有深究springboot，按我的理解，</p>
+<h1 id="启动fateboard服务"><a href="#启动fateboard服务" class="headerlink" title="启动fateboard服务"></a>启动fateboard服务</h1><p>因为我是standalone安装的FATE，已经直接安装好了，根据文档<a target="_blank" rel="noopener" href="https://fate.fedai.org/fateboard/">https://fate.fedai.org/fateboard/</a><br>输入以下可启动Fateboard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -Dspring.config.location=FATE/fateboard/src/main/resources/application.properties -DFATE_DEPLOY_PREFIX=FATE/logs/ -Dssh_config_file=FATE/fateboard/src/main/resources/ -Xmx2048m -Xms2048m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:+HeapDumpOnOutOfMemoryError -jar FATE/fateboard/target/fateboard-1.0.jar &gt;/dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure><br>一些参数解释<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-Dspring.config.location 	path of application.properties of fateboard</span><br><span class="line">-Dssh_config_file 	path of directory which ssh.properties lies in</span><br><span class="line">-DFATE_DEPLOY_PREFIX 	path of logs directory which produced by fate_flow</span><br></pre></td></tr></table></figure><br>所以看上去挺长，其实就是输入了一些路径，有点长。<br>拆解一下就是用java启动了springboot的一个服务，<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -A a -B b</span><br></pre></td></tr></table></figure><br>还有一些杂项，列在下面了，基本上是java的相关的一些参数（我不是很熟悉java，有错请评论指出</p>
+<ul>
+<li>-Xms2048m ：代表最小堆要2048MiB</li>
+<li>-XX:+PrintGCDetails ：开启了jvm的Garage Collector的日志输出</li>
+<li>-XX:+PrintGCDateStamps ：输出GC的时间戳（以日期的形式，如 2013-05-04T21:53:59.2）参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/yinni11/article/details/102591431">这个</a></li>
+<li>-Xloggc:gc.log : 输出GC日志到文件</li>
+<li>-XX:+HeapDumpOnOutOfMemoryError : 表示当JVM发生OOM时，自动生成DUMP文件。啥是DUMP文件？</li>
+<li>-jar FATE/fateboard/target/fateboard-1.0.jar </li>
+<li><blockquote>
+<p>/dev/null 2&gt;&amp;1 &amp; ： 这些就是linux运维基本知识了，直接把输出的信息不要了，把stderr错误信息输出给到stdout来，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/ggxiaobai/article/details/53507530">这个</a></p>
+</blockquote>
+</li>
+</ul>
+<p>停止服务<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep java|grep fateboard-1.1.jar|grep -v grep|awk ‘&#123;print $2&#125;’</span><br><span class="line">kill -9 $&#123;pid&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="启动服务后，网页访问"><a href="#启动服务后，网页访问" class="headerlink" title="启动服务后，网页访问"></a>启动服务后，网页访问</h1><p><a href="http://{fateboard-ip}:8080，一般就可以了，如果8080端口没有被别人占了的话。想要直接换端口应该可以在启动的时候往java那命令里加参数就可以。standalone的话一般是``127.0.0.1:8080``">http://{fateboard-ip}:8080，一般就可以了，如果8080端口没有被别人占了的话。想要直接换端口应该可以在启动的时候往java那命令里加参数就可以。standalone的话一般是``127.0.0.1:8080``</a><br>不过搞笑的是访问后竟然还要登录……默认是账密是<code>admin</code>和<code>admin</code>。<br>接下来都是可视化操作了。<br><img src="https://img-blog.csdnimg.cn/3163acf1d2db45df872c8d1c21e7b63f.png" alt="在这里插入图片描述"></p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>Fateboard是重要的FATE框架任务看板，即便是开发debug的时候也会常用到这一看版。</p>
+<p>party id should be positive integer<br>‘NoneType’ object has no attribute ‘index’</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8fateboard%E6%9C%8D%E5%8A%A1"><span class="toc-number">2.</span> <span class="toc-text">启动fateboard服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%90%8E%EF%BC%8C%E7%BD%91%E9%A1%B5%E8%AE%BF%E9%97%AE"><span class="toc-number">3.</span> <span class="toc-text">启动服务后，网页访问</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B0%8F%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">小结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&text=fateboard的使用"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&is_video=false&description=fateboard的使用"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=fateboard的使用&body=Check out this article: https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&title=fateboard的使用"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&name=fateboard的使用&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/&t=fateboard的使用"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

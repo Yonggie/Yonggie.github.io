@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="Cox PH model, 全称 proportional hazard regression model. 模型假设前提PH，比例风险变量对生存率的影响不随时间的改变而改变。举个例子，若以$h$预测生存概率，则$h{t_i}(x)$与$h{t_0}(x)$是定值。 是什么假设$h$是生存预测模型函数（输出t时刻生存风险），则 h(t,X)&#x3D;h_0(t) * exp(\sum w_ix_i)表示特">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cox PH模型">
+<meta property="og:url" content="https://yonggie.github.io/2022/09/18/cox%20PH/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="Cox PH model, 全称 proportional hazard regression model. 模型假设前提PH，比例风险变量对生存率的影响不随时间的改变而改变。举个例子，若以$h$预测生存概率，则$h{t_i}(x)$与$h{t_0}(x)$是定值。 是什么假设$h$是生存预测模型函数（输出t时刻生存风险），则 h(t,X)&#x3D;h_0(t) * exp(\sum w_ix_i)表示特">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-09-18T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-02-22T09:01:57.371Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>Cox PH模型</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2022/09/18/chinese_seg/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2022/09/02/dp/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/09/18/cox%20PH/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/09/18/cox%20PH/&text=Cox PH模型"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/09/18/cox%20PH/&is_video=false&description=Cox PH模型"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Cox PH模型&body=Check out this article: https://yonggie.github.io/2022/09/18/cox%20PH/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/09/18/cox%20PH/&name=Cox PH模型&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/09/18/cox%20PH/&t=Cox PH模型"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">模型假设前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">求解参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Metrics"><span class="toc-number">4.</span> <span class="toc-text">Metrics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI"><span class="toc-number">4.1.</span> <span class="toc-text">CI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REA"><span class="toc-number">4.2.</span> <span class="toc-text">REA</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Cox PH模型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2022-09-18T08:14:38.000Z" itemprop="datePublished">2022-09-18</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>Cox PH model, 全称 proportional hazard regression model.</p>
+<h1 id="模型假设前提"><a href="#模型假设前提" class="headerlink" title="模型假设前提"></a>模型假设前提</h1><p>PH，比例风险变量对生存率的影响不随时间的改变而改变。<br>举个例子，若以$h$预测生存概率，则$h<em>{t_i}(x)$与$h</em>{t_0}(x)$是定值。</p>
+<h1 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h1><p>假设$h$是生存预测模型函数（输出t时刻生存风险），则</p>
+<script type="math/tex; mode=display">h(t,X)=h_0(t) * exp(\sum w_ix_i)</script><p>表示特征是$X$的人在t时刻的风险。但是$h_0$是不需要求的，$h_0$除过去两边取对数</p>
+<script type="math/tex; mode=display">ln\frac{h(t,X)}{h_0(t)}=\sum w_ix_i</script><p>其实算是一个线性回归。</p>
+<h1 id="求解参数"><a href="#求解参数" class="headerlink" title="求解参数"></a>求解参数</h1><p>极大似然估计<br>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/538476448">https://zhuanlan.zhihu.com/p/538476448</a> </p>
+<h1 id="Metrics"><a href="#Metrics" class="headerlink" title="Metrics"></a>Metrics</h1><h2 id="CI"><a href="#CI" class="headerlink" title="CI"></a><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/Multivariable-prognostic-models%3A-issues-in-models%2C-Harrell-Lee/a6d33daa0e093a50b1b58e3aa34191c4b5acda92">CI</a></h2><p>C-index有多种，只介绍链接那种。</p>
+<p>concordence index $\in [0.5,1]$, 在非删失的数据中，两两组pair，#表示pair的个数。<script type="math/tex">CI=\frac{\# expectated\ pair}{\# all\ pair}</script>.</p>
+<p>结合删失标志位$\delta$的话，<br>Given observed survival times ti, predicted risk scores ηi, and<br>censoring indicators δi, the concordance index is defined as<br>可以表示为</p>
+<script type="math/tex; mode=display">CI=\frac{\sum_j\sum_i 1_{t_j<t_i}1_{\eta_j>\eta_i}\delta}{\sum_j\sum_i 1_{t_j<t_i}\delta}</script><p>δi is the censoring indicator: δi = 0 if the survival time of the i-th patient was censored, and δi = 1 otherwise. 0 unuseful 1 useful.</p>
+<p>所以可见，其没有使用删失数据。<br>举个例子suppose：<br>| survival time      | predict rish | censored|CI|<br>| —————- | —————- |—————- | —————- |<br>| 4      | 0.9       |0<br>| 5   | 0.8        |1<br>| 6   | 0.7        |0</p>
+<p>则<script type="math/tex">CI=</script></p>
+<h2 id="REA"><a href="#REA" class="headerlink" title="REA"></a><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.5555/2986459.2986665">REA</a></h2><p>Relative absolute error,</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E5%81%87%E8%AE%BE%E5%89%8D%E6%8F%90"><span class="toc-number">1.</span> <span class="toc-text">模型假设前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">2.</span> <span class="toc-text">是什么</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%B1%82%E8%A7%A3%E5%8F%82%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">求解参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Metrics"><span class="toc-number">4.</span> <span class="toc-text">Metrics</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CI"><span class="toc-number">4.1.</span> <span class="toc-text">CI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#REA"><span class="toc-number">4.2.</span> <span class="toc-text">REA</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2022/09/18/cox%20PH/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2022/09/18/cox%20PH/&text=Cox PH模型"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2022/09/18/cox%20PH/&is_video=false&description=Cox PH模型"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Cox PH模型&body=Check out this article: https://yonggie.github.io/2022/09/18/cox%20PH/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2022/09/18/cox%20PH/&title=Cox PH模型"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2022/09/18/cox%20PH/&name=Cox PH模型&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2022/09/18/cox%20PH/&t=Cox PH模型"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

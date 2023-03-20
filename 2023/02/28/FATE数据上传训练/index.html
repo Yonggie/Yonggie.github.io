@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="fate如何安装？本文续这篇文章。 背景fate是一个服务，还原联邦学习，所以分client和host两种身份，一般来说用户都是client，用户想要上传自己的数据，合并他人数据最终获得一个更好的模型，所以要“上传”数据。 在 FATE 框架中，横向联邦的场景被称为 homo，纵向的被称为 hetero，比如 纵向安全提升树模型就叫做 hetero secure boost。 上传官方文档：htt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FATE数据上传、读取、训练、保存">
+<meta property="og:url" content="https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="fate如何安装？本文续这篇文章。 背景fate是一个服务，还原联邦学习，所以分client和host两种身份，一般来说用户都是client，用户想要上传自己的数据，合并他人数据最终获得一个更好的模型，所以要“上传”数据。 在 FATE 框架中，横向联邦的场景被称为 homo，纵向的被称为 hetero，比如 纵向安全提升树模型就叫做 hetero secure boost。 上传官方文档：htt">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/28a3be499b404b18917b31fc7664e3e2.png">
+<meta property="article:published_time" content="2023-02-28T08:14:38.000Z">
+<meta property="article:modified_time" content="2023-03-02T09:37:47.444Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/28a3be499b404b18917b31fc7664e3e2.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>FATE数据上传、读取、训练、保存</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/02/27/FATE%E5%AE%89%E8%A3%85/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&text=FATE数据上传、读取、训练、保存"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&is_video=false&description=FATE数据上传、读取、训练、保存"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=FATE数据上传、读取、训练、保存&body=Check out this article: https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&name=FATE数据上传、读取、训练、保存&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&t=FATE数据上传、读取、训练、保存"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.</span> <span class="toc-text">上传</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">2.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E5%BC%80%E5%8F%91"><span class="toc-number">2.2.</span> <span class="toc-text">Python开发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8EFATE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E8%8E%B7%E5%BE%97%E6%95%B0%E6%8D%AE"><span class="toc-number">3.</span> <span class="toc-text">从FATE服务中获得数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7-1"><span class="toc-number">3.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">3.2.</span> <span class="toc-text">Python</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        FATE数据上传、读取、训练、保存
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-02-28T08:14:38.000Z" itemprop="datePublished">2023-02-28</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>fate如何安装？本文续<a target="_blank" rel="noopener" href="https://yonggie.blog.csdn.net/article/details/129240605">这篇文章</a>。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>fate是一个服务，还原联邦学习，所以分client和host两种身份，一般来说用户都是client，用户想要上传自己的数据，合并他人数据最终获得一个更好的模型，所以要“上传”数据。</p>
+<p>在 FATE 框架中，横向联邦的场景被称为 homo，纵向的被称为 hetero，比如 纵向安全提升树模型就叫做 hetero secure boost。</p>
+<h1 id="上传"><a href="#上传" class="headerlink" title="上传"></a>上传</h1><p>官方文档：<a target="_blank" rel="noopener" href="https://fate.readthedocs.io/en/latest/tutorial/pipeline">https://fate.readthedocs.io/en/latest/tutorial/pipeline</a><br><strong>强烈建议对着官方文档看我这个！</strong></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p>FATE框架可以使用pipeline工具进行上传。</p>
+<p>先下载fate_client，因为Pipeline是fate_client里的一个工具。<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install fate_client</span><br></pre></td></tr></table></figure><br>根据文档，想要使用pipeline，需要命令行配合使用<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipeline init --ip=xxx --port=xxx</span><br></pre></td></tr></table></figure><br>先terminal里面对pipeline初始化才能使用pipeline，ip和port要跟FATE启动时的ip和port要对应，如果是standalone，那么ip是127.0.0.1，port一般是9380。</p>
+<p>如果记不清fate的配置了，使用（暂时还没找到，等着补上<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flow </span><br></pre></td></tr></table></figure><br>如果记不清pipeleine的配置了，使用<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pipeline config show</span><br></pre></td></tr></table></figure><br>查看</p>
+<h2 id="Python开发"><a href="#Python开发" class="headerlink" title="Python开发"></a>Python开发</h2><p>python文件如下代码即可上传csv文件。<br>每一个上传的数据都会有自己的table_name和namespace，fate用这两个字段来命名区分每一个上传的数据。<br>pipeline的initiator绑定此pipeline是谁的，set roles标明此任务是由哪些人们一起做。<br>下面的例子意思是“此pipeline属于guest，他的id号是9999，此任务由id是9999的guest和id是10000的host共同完成”。guest和host参数除了可以是一个数字，也可以是一个list，比如<code>guest=[1,2,3,4]</code>。<br><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pipeline.backend.pipeline <span class="keyword">import</span> PipeLine</span><br><span class="line"></span><br><span class="line">pipeline = PipeLine() \</span><br><span class="line">        .set_initiator(role=<span class="string">&#x27;guest&#x27;</span>, party_id=<span class="number">9999</span>) \</span><br><span class="line">        .set_roles(guest=<span class="number">9999</span>, host=<span class="number">10000</span>) </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data_path=<span class="string">&#x27;/root/Downloads/dummy.csv&#x27;</span></span><br><span class="line">table_name=<span class="string">&#x27;dummy&#x27;</span></span><br><span class="line">namespace=<span class="string">&#x27;dummy&#x27;</span></span><br><span class="line">pipeline.add_upload_data(file=data_path,table_name=table_name,namespace=namespace)</span><br><span class="line">pipeline.upload(drop=<span class="number">1</span>) <span class="comment"># drop表示是否覆盖已经上传的table</span></span><br><span class="line"></span><br></pre></td></tr></table></figure><br>成功运行后，terminal会出现类似字样。<img src="https://img-blog.csdnimg.cn/28a3be499b404b18917b31fc7664e3e2.png" alt="在这里插入图片描述"></p>
+<h1 id="从FATE服务中获得数据"><a href="#从FATE服务中获得数据" class="headerlink" title="从FATE服务中获得数据"></a>从FATE服务中获得数据</h1><p>官方文档：<a target="_blank" rel="noopener" href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/pipeline_tutorial_hetero_sbt/#install**强烈建议对着官方文档看我这个！**">https://fate.readthedocs.io/en/latest/tutorial/pipeline/pipeline_tutorial_hetero_sbt/#install**强烈建议对着官方文档看我这个！**</a></p>
+<p>文档中的sbt，其实就是Secure Boost Tree，一个决策树模型，因为使用了FATE，所以叫Secure。</p>
+<h2 id="工具-1"><a href="#工具-1" class="headerlink" title="工具"></a>工具</h2><p>FATE中使用<code>Reader</code>类，从FATE框架中获得数据。</p>
+<p>文档中说“load data”，我一开始以为load data是从本地load，汗！文档最好改成load data from FATE service……</p>
+<p>使用<code>Reader</code>类获得数据后，可以使用<code>DataTransform</code>类进行变换。文档和代码有提，可以参考文档。使用<code>Intersection</code>可以获得两份数据的PSI值，根据<a target="_blank" rel="noopener" href="https://fate.readthedocs.io/en/latest/zh/federatedml_component/#_2">Component文档</a>，PSI是两份数据中交集程度的指标，FATE当然还提供了更多的函数，文档的代码只是举了一个PSI的例子。</p>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p><code>Reader</code>同样也需要绑定party，但是是要绑定<strong>数据提供方</strong>的身份和id。比如有一份数据A是guest id10提供的，在定义Reader的时候要绑定guest id10才能成功读取。</p>
+<p>在下方的例子中，由于我上面已经用guest 9999上传过一份数据了，所以下面的pipeline我还是用guest 9999下载获得这份数据，没有其他方，所以我的参数不需要加入其他的guest或者host。</p>
+<p>注意：如果一方party在上传数据的时候没有提前和另一方party通知（也就是上传的pipeline时没有约定谁能够使用我的数据），那么即便是有一方得知了此份数据是谁上传的，在reader真正读取的时候会出现错误。<br>这符合联邦学习的“初心”，各方相互不信任，但是有FATE做第三方做担保，没有人的数据会被泄露。<a href="">没有看懂？这篇博客我详细讲了这一点。</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pipeline.component <span class="keyword">import</span> Reader, DataTransform, HeteroSecureBoost, Evaluation</span><br><span class="line"><span class="keyword">from</span> pipeline.interface <span class="keyword">import</span> Data</span><br><span class="line"><span class="comment"># set pipeline operation party ids.</span></span><br><span class="line">pipeline = PipeLine() \</span><br><span class="line">        .set_initiator(role=<span class="string">&#x27;guest&#x27;</span>, party_id=<span class="number">9999</span>) \</span><br><span class="line">        .set_roles(guest=<span class="number">9999</span>)<span class="comment">#, host=10000) 不需要加入其他host</span></span><br><span class="line"></span><br><span class="line">reader_0 = Reader(name=<span class="string">&quot;reader_0&quot;</span>)</span><br><span class="line"><span class="comment"># bind reader operation tables</span></span><br><span class="line">reader_0.get_party_instance(role=<span class="string">&#x27;guest&#x27;</span>, party_id=<span class="number">9999</span>).component_param(</span><br><span class="line">    table=&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;dummy&quot;</span>, <span class="string">&quot;namespace&quot;</span>: <span class="string">&quot;dummy&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">data_transform_0 = DataTransform(name=<span class="string">&quot;data_transform_0&quot;</span>)</span><br><span class="line"><span class="comment"># bind transformation operation party</span></span><br><span class="line">data_transform_0.get_party_instance(role=<span class="string">&#x27;guest&#x27;</span>, party_id=<span class="number">9999</span>).component_param(</span><br><span class="line">    with_label=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># state a boost tree and evaluation</span></span><br><span class="line">hetero_secureboost_0 = HeteroSecureBoost(name=<span class="string">&quot;hetero_secureboost_0&quot;</span>,</span><br><span class="line">                                         num_trees=<span class="number">5</span>,</span><br><span class="line">                                         bin_num=<span class="number">16</span>,</span><br><span class="line">                                         task_type=<span class="string">&quot;classification&quot;</span>,</span><br><span class="line">                                         objective_param=&#123;<span class="string">&quot;objective&quot;</span>: <span class="string">&quot;cross_entropy&quot;</span>&#125;,</span><br><span class="line">                                         encrypt_param=&#123;<span class="string">&quot;method&quot;</span>: <span class="string">&quot;paillier&quot;</span>&#125;,</span><br><span class="line">                                         tree_param=&#123;<span class="string">&quot;max_depth&quot;</span>: <span class="number">3</span>&#125;)</span><br><span class="line">evaluation_0 = Evaluation(name=<span class="string">&quot;evaluation_0&quot;</span>, eval_type=<span class="string">&quot;binary&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># add everyone into pipeline and ready for training</span></span><br><span class="line">pipeline.add_component(reader_0)</span><br><span class="line">pipeline.add_component(data_transform_0,data=Data(train_data=reader_0.output.data))</span><br><span class="line">pipeline.add_component(hetero_secureboost_0, data=Data(train_data=data_transform_0.output.data))</span><br><span class="line">pipeline.add_component(evaluation_0, data=Data(data=hetero_secureboost_0.output.data))</span><br><span class="line">pipeline.<span class="built_in">compile</span>()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># training</span></span><br><span class="line">pipeline.fit()</span><br><span class="line"></span><br><span class="line"><span class="comment"># load another dataset via predict_pipeline</span></span><br><span class="line"><span class="comment"># predict_pipeline.predict()</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># save results</span></span><br><span class="line">pipeline.dump(<span class="string">&quot;pipeline_saved.pkl&quot;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>如何查看取出的数据具体是什么？在fate board里面能够看到。<a target="_blank" rel="noopener" href="https://yonggie.blog.csdn.net/article/details/129282301">怎么使用fate board？</a>。</p>
+</li>
+<li><p>如果训练失败了，怎么处理？python会提示，可以用fate board看日志。<a target="_blank" rel="noopener" href="https://yonggie.blog.csdn.net/article/details/129282301">怎么使用fate board？</a>。</p>
+</li>
+</ul>
+<p>对于一个pipeline可以通过dump把所有信息保存到pkl中。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.</span> <span class="toc-text">上传</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-number">2.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python%E5%BC%80%E5%8F%91"><span class="toc-number">2.2.</span> <span class="toc-text">Python开发</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8EFATE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E8%8E%B7%E5%BE%97%E6%95%B0%E6%8D%AE"><span class="toc-number">3.</span> <span class="toc-text">从FATE服务中获得数据</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7-1"><span class="toc-number">3.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Python"><span class="toc-number">3.2.</span> <span class="toc-text">Python</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&text=FATE数据上传、读取、训练、保存"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&is_video=false&description=FATE数据上传、读取、训练、保存"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=FATE数据上传、读取、训练、保存&body=Check out this article: https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&title=FATE数据上传、读取、训练、保存"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&name=FATE数据上传、读取、训练、保存&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/02/28/FATE%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0%E8%AE%AD%E7%BB%83/&t=FATE数据上传、读取、训练、保存"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
