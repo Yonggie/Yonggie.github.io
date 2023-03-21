@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>SimpleGUI简单例子</title>
+      <link href="/2023/03/20/simpleGUI/"/>
+      <url>/2023/03/20/simpleGUI/</url>
+      
+        <content type="html"><![CDATA[<p>官方文档：<a href="https://www.pysimplegui.org/en/latest/#button-click-events">https://www.pysimplegui.org/en/latest/#button-click-events</a></p><p>基本例子：</p><ul><li>It uses a list [] to represent a simple UI.</li><li>Button event is the plain text on the button, can handle these events in the while loop in the final.</li></ul><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> PySimpleGUI <span class="keyword">as</span> sg</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sg.theme(<span class="string">&#x27;DarkAmber&#x27;</span>)   <span class="comment"># 设置当前主题</span></span><br><span class="line"><span class="comment"># 界面布局，将会按照列表顺序从上往下依次排列，二级列表中，从左往右依此排列</span></span><br><span class="line">layout = [  [sg.Text(<span class="string">&#x27;Federated Client1 &#x27;</span>)],</span><br><span class="line">            [sg.Text(<span class="string">&#x27; &#x27;</span>)],</span><br><span class="line">            [sg.Button(<span class="string">&#x27;upload my data&#x27;</span>)],</span><br><span class="line">            [sg.Button(<span class="string">&#x27;request federated training&#x27;</span>),sg.Text(<span class="string">&#x27;Steps: Data Aggeragation - Federated Training - Model&#x27;</span>)],</span><br><span class="line">            [sg.Button(<span class="string">&#x27;federated model prediction save&#x27;</span>)],</span><br><span class="line">            [sg.Text(<span class="string">&#x27; &#x27;</span>)],</span><br><span class="line">            [sg.Text(<span class="string">&#x27; &#x27;</span>)],</span><br><span class="line">            [sg.Text(<span class="string">&#x27;There are &#x27;</span>),sg.Text(<span class="string">&#x27;Images √ Labels √&#x27;</span>,font=<span class="string">&#x27;bold&#x27;</span>), sg.Text(<span class="string">&#x27; in my data&#x27;</span>),],<span class="comment"># ×</span></span><br><span class="line">            [sg.Text(<span class="string">&#x27; &#x27;</span>)],</span><br><span class="line">            [sg.Text(<span class="string">&#x27;Data Sample:&#x27;</span>),],</span><br><span class="line">            [ sg.Image(<span class="string">&quot;mnist.png&quot;</span>) ]</span><br><span class="line">              ]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创造窗口</span></span><br><span class="line">window = sg.Window(<span class="string">&#x27;MNIST HeteroFedTraining demo&#x27;</span>, layout)</span><br><span class="line"><span class="comment"># 事件循环并获取输入值</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    event, values = window.read()</span><br><span class="line">    <span class="keyword">if</span> event==<span class="string">&#x27;upload my data&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;data uploaded!&#x27;</span>)</span><br><span class="line">    <span class="keyword">elif</span> event==<span class="string">&#x27;request federated training&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">2</span>)</span><br><span class="line">        pipeline_img.fit()</span><br><span class="line">    <span class="keyword">elif</span> event==<span class="string">&#x27;federated model prediction save&#x27;</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="number">3</span>)</span><br><span class="line">        <span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">        results=pd.DataFrame(pipeline_img.get_component(<span class="string">&#x27;hetero_nn_0&#x27;</span>).get_output_data())</span><br><span class="line">        results.to_csv(<span class="string">&#x27;hetero_prediction.csv&#x27;</span>)</span><br><span class="line">    <span class="keyword">elif</span> event <span class="keyword">in</span> (<span class="literal">None</span>, <span class="string">&#x27;Cancel&#x27;</span>):   <span class="comment"># 如果用户关闭窗口或点击`Cancel`</span></span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">window.close()</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> python GUI </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>联邦学习不止横向和纵向场景</title>
+      <link href="/2023/03/20/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%8D%E6%AD%A2%E6%A8%AA%E5%90%91%E5%92%8C%E7%BA%B5%E5%90%91%E5%9C%BA%E6%99%AF/"/>
+      <url>/2023/03/20/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E4%B8%8D%E6%AD%A2%E6%A8%AA%E5%90%91%E5%92%8C%E7%BA%B5%E5%90%91%E5%9C%BA%E6%99%AF/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> federated learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>fateboard的使用</title>
       <link href="/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"/>
       <url>/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/</url>
@@ -88,7 +126,7 @@
     
     
     <entry>
-      <title>Differences between Knowledge Graph and Graph Neural Network</title>
+      <title>Graph learning 数据集</title>
       <link href="/2022/10/18/graph_dataset/"/>
       <url>/2022/10/18/graph_dataset/</url>
       
