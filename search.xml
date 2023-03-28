@@ -42,6 +42,19 @@
     
     
     <entry>
+      <title>Vue3.x资源</title>
+      <link href="/2023/03/03/vue_resources/"/>
+      <url>/2023/03/03/vue_resources/</url>
+      
+        <content type="html"><![CDATA[<h1 id="个人开源分享"><a href="#个人开源分享" class="headerlink" title="个人开源分享"></a>个人开源分享</h1><ul><li><p><a href="https://meadmin-cn.gitee.io/meadmin-template-doc/">https://meadmin-cn.gitee.io/meadmin-template-doc/</a></p></li><li><p><a href="https://gitee.com/chu1204505056/vue-admin-better">https://gitee.com/chu1204505056/vue-admin-better</a></p></li><li><a href="https://gitee.com/chu1204505056/vue-admin-beautiful">https://gitee.com/chu1204505056/vue-admin-beautiful</a><h2 id="基于element-plus的"><a href="#基于element-plus的" class="headerlink" title="基于element plus的"></a>基于element plus的</h2>前身element ui，但是其是基于vue2的，改vue3后改名为element plus，是饿了么搞的UI</li><li><p><a href="https://gitee.com/kailong110120130/vue-element-plus-admin#%E6%96%87%E6%A1%A3">https://gitee.com/kailong110120130/vue-element-plus-admin#%E6%96%87%E6%A1%A3</a></p></li><li><p><a href="https://gitee.com/newbee-ltd/vue3-admin">https://gitee.com/newbee-ltd/vue3-admin</a></p></li></ul><h1 id="ant-design"><a href="#ant-design" class="headerlink" title="ant design"></a>ant design</h1><p>蚂蚁的。<br><a href="https://store.antdv.com/home">官网本身有store资源</a></p><h1 id="一些vue2的"><a href="#一些vue2的" class="headerlink" title="一些vue2的"></a>一些vue2的</h1><p>Tdesign，腾讯<br>element ui，饿了么<br>vue admin<br>bootstrapvue</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>fateboard的使用</title>
       <link href="/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/"/>
       <url>/2023/03/01/fateboard%E4%BD%BF%E7%94%A8/</url>
