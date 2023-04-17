@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>【极简】windows下，vuejs打包，用Nginx部署http服务</title>
+      <link href="/2023/04/17/vue%E6%89%93%E5%8C%85/"/>
+      <url>/2023/04/17/vue%E6%89%93%E5%8C%85/</url>
+      
+        <content type="html"><![CDATA[<h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>首先在vue项目下<code>npm run build</code>，在项目目录会出现<code>dist</code>文件夹。</p><p>然后下载Nginx，看其<a href="https://nginx.org/en/docs/windows.html">官网</a>是http服务和反向代理服务的实现程序。解压后可以看到目录结构中有一个html目录，删掉原有的，复制进去<code>dist</code>目录的所有内容（是dist文件里面的内容，不是dist文件夹）。<br><img src="https://img-blog.csdnimg.cn/a706f10af7c14f6489040f03e0b6dff2.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/4f2a5e6667d7409e8bd9f63a7344a27d.png" alt="在这里插入图片描述"></p><p>然后可以双击<code>nginx.exe</code>，在浏览器访问<code>localhost:80</code>就可以了。</p><h1 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h1><p>可以看到Nginx很简单，就是一个服务程序。<br>下载解压后，可以看到<code>conf</code>目录是Nginx的配置文件夹、<code>logs</code>是运行日志，html是网页的根目录，只要放入vue打包好的html就可以了。</p><p>不过大家显然都在Linux下使用http服务了，不过操作都差不多。</p><p>当然除了这种“双击运行”，windows下官网也给了old style命令：<br><img src="https://img-blog.csdnimg.cn/295734f9e0c1415f9c14f290d6f4d6e7.png" alt="在这里插入图片描述"></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>贝叶斯派 先验分布、后验分布、似然分布、似然估计，通俗解释</title>
       <link href="/2023/04/17/%E5%85%88%E9%AA%8C%E5%90%8E%E9%AA%8C/"/>
       <url>/2023/04/17/%E5%85%88%E9%AA%8C%E5%90%8E%E9%AA%8C/</url>

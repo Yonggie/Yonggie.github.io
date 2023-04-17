@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="做法首先在vue项目下npm run build，在项目目录会出现dist文件夹。 然后下载Nginx，看其官网是http服务和反向代理服务的实现程序。解压后可以看到目录结构中有一个html目录，删掉原有的，复制进去dist目录的所有内容（是dist文件里面的内容，不是dist文件夹）。 然后可以双击nginx.exe，在浏览器访问localhost:80就可以了。 解释可以看到Nginx很简单，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【极简】windows下，vuejs打包，用Nginx部署http服务">
+<meta property="og:url" content="https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="做法首先在vue项目下npm run build，在项目目录会出现dist文件夹。 然后下载Nginx，看其官网是http服务和反向代理服务的实现程序。解压后可以看到目录结构中有一个html目录，删掉原有的，复制进去dist目录的所有内容（是dist文件里面的内容，不是dist文件夹）。 然后可以双击nginx.exe，在浏览器访问localhost:80就可以了。 解释可以看到Nginx很简单，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/a706f10af7c14f6489040f03e0b6dff2.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/4f2a5e6667d7409e8bd9f63a7344a27d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/295734f9e0c1415f9c14f290d6f4d6e7.png">
+<meta property="article:published_time" content="2023-04-17T09:07:06.000Z">
+<meta property="article:modified_time" content="2023-04-17T09:07:24.339Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/a706f10af7c14f6489040f03e0b6dff2.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>【极简】windows下，vuejs打包，用Nginx部署http服务</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/04/17/%E5%85%88%E9%AA%8C%E5%90%8E%E9%AA%8C/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&text=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&is_video=false&description=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=【极简】windows下，vuejs打包，用Nginx部署http服务&body=Check out this article: https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&name=【极简】windows下，vuejs打包，用Nginx部署http服务&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&t=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.</span> <span class="toc-text">解释</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        【极简】windows下，vuejs打包，用Nginx部署http服务
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-04-17T09:07:06.000Z" itemprop="datePublished">2023-04-17</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="做法"><a href="#做法" class="headerlink" title="做法"></a>做法</h1><p>首先在vue项目下<code>npm run build</code>，在项目目录会出现<code>dist</code>文件夹。</p>
+<p>然后下载Nginx，看其<a target="_blank" rel="noopener" href="https://nginx.org/en/docs/windows.html">官网</a>是http服务和反向代理服务的实现程序。解压后可以看到目录结构中有一个html目录，删掉原有的，复制进去<code>dist</code>目录的所有内容（是dist文件里面的内容，不是dist文件夹）。<br><img src="https://img-blog.csdnimg.cn/a706f10af7c14f6489040f03e0b6dff2.png" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/4f2a5e6667d7409e8bd9f63a7344a27d.png" alt="在这里插入图片描述"></p>
+<p>然后可以双击<code>nginx.exe</code>，在浏览器访问<code>localhost:80</code>就可以了。</p>
+<h1 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h1><p>可以看到Nginx很简单，就是一个服务程序。<br>下载解压后，可以看到<code>conf</code>目录是Nginx的配置文件夹、<code>logs</code>是运行日志，html是网页的根目录，只要放入vue打包好的html就可以了。</p>
+<p>不过大家显然都在Linux下使用http服务了，不过操作都差不多。</p>
+<p>当然除了这种“双击运行”，windows下官网也给了old style命令：<br><img src="https://img-blog.csdnimg.cn/295734f9e0c1415f9c14f290d6f4d6e7.png" alt="在这里插入图片描述"></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%81%9A%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">做法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%87%8A"><span class="toc-number">2.</span> <span class="toc-text">解释</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&text=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&is_video=false&description=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=【极简】windows下，vuejs打包，用Nginx部署http服务&body=Check out this article: https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&title=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&name=【极简】windows下，vuejs打包，用Nginx部署http服务&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/04/17/vue%E6%89%93%E5%8C%85/&t=【极简】windows下，vuejs打包，用Nginx部署http服务"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
