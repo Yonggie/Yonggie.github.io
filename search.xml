@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>贝叶斯派 先验分布、后验分布、似然分布、似然估计，通俗解释</title>
+      <link href="/2023/04/17/%E5%85%88%E9%AA%8C%E5%90%8E%E9%AA%8C/"/>
+      <url>/2023/04/17/%E5%85%88%E9%AA%8C%E5%90%8E%E9%AA%8C/</url>
+      
+        <content type="html"><![CDATA[<p>先验分布、后验分布、似然分布三个应该在一起，似然估计应该分开。</p><p>前三个一起出现在贝叶斯公式，</p><script type="math/tex; mode=display">P(\theta|X)=\frac{P(X|\theta)P(\theta)}{P(X)}</script><p>$\theta$是分布参数，$X$是所见数据，<br>$P(\theta|X)$是后验，即见过数据$X$影响后的分布；<br>$P(\theta)$是先验，没受$X$影响前的分布；<br>$P(X|\theta)$是似然，即在已知分布参数$\theta$下，度量生成某个样本/事件的分布</p><p>===================================<br>而后面的<strong>似然估计</strong>，是参数估计的<strong>思想</strong>，是求参的思想。一般都是极大似然估计，也就是怎样改变参数才能使得分布的结果更加符合所观测的数据（或者说训练数据），而具体的方法有有：</p><ol><li>贝叶斯估计，也就是上述的朴素贝叶斯</li><li>（ 解析解的）极大似然估计，一般求解是：<blockquote><p>求最大似然函数估计值的一般步骤：<br>（1）写出似然函数；<br>（2）对似然函数取对数，并整理；<br>（3）求导数，令导数为0，得到似然方程；<br>（4）解似然方程，得到的参数即为所求；</p></blockquote></li><li>期望最大（EM）方法，即没办法求解析解的参数估计</li><li>以及很多深度学习加持的模型</li></ol>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>【极简】vue+flask简单代码</title>
       <link href="/2023/03/29/vue-flask-md/"/>
       <url>/2023/03/29/vue-flask-md/</url>
