@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>FATE高度定制</title>
+      <link href="/2023/05/15/FATE%E9%AB%98%E5%BA%A6%E5%AE%9A%E5%88%B6/"/>
+      <url>/2023/05/15/FATE%E9%AB%98%E5%BA%A6%E5%AE%9A%E5%88%B6/</url>
+      
+        <content type="html"><![CDATA[<h1 id="使用自己的数据集"><a href="#使用自己的数据集" class="headerlink" title="使用自己的数据集"></a>使用自己的数据集</h1><p>homo场景： <a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-your-Dataset/">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-your-Dataset/</a><br>hetero场景：<a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Hetero-NN-Customize-Dataset/">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Hetero-NN-Customize-Dataset/</a></p><p>速记：在<code>federatedml/nn/dataset</code>加入自己的数据集.py</p><h1 id="使用自己的模型"><a href="#使用自己的模型" class="headerlink" title="使用自己的模型"></a>使用自己的模型</h1><p>homo场景：<a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Model/">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Model/</a><br>hetero需要自定义upper layer和bottom layer的模型，所以自带customization。</p><p>速记：在<code>federatedml/nn/model_zoo</code>加入自己的模型.py</p><h1 id="使用自己的loss"><a href="#使用自己的loss" class="headerlink" title="使用自己的loss"></a>使用自己的loss</h1><p><a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Loss/">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Loss/</a></p><h1 id="自己控制训练过程"><a href="#自己控制训练过程" class="headerlink" title="自己控制训练过程"></a>自己控制训练过程</h1><p>homo场景 basic：<a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Quick-Start/#trainerparam-trainer-parameter-and-trainer">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Quick-Start/#trainerparam-trainer-parameter-and-trainer</a><br>homo场景高度定制：<a href="https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Trainer/">https://fate.readthedocs.io/en/latest/tutorial/pipeline/nn_tutorial/Homo-NN-Customize-Trainer/</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title></title>
       <link href="/2023/05/15/%E7%95%99%E5%AD%A6%E9%9B%86%E5%90%88/"/>
       <url>/2023/05/15/%E7%95%99%E5%AD%A6%E9%9B%86%E5%90%88/</url>
