@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="大小调关系C大调关系调a小调。大调找小调：下行小三度小调找大调，上行小三度 基本功1以单音为最低音，寻找合适和弦。寻找的和弦包括三和弦及其转位和七和弦及其转位。 例子：  以C为固定最低音，寻找包含C的三和弦第一转位。 以C为固定最低音，寻找包含C的七和弦第二转位。  要点：转位是所有要移动的音的平移，保持原关系。比如第二转位后，变化的音的排列自下而上仍然是1音和3音。三和弦：  不转位略过 第一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="殷泽成">
+<meta property="og:url" content="https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/index.html">
+<meta property="og:site_name" content="殷泽成">
+<meta property="og:description" content="大小调关系C大调关系调a小调。大调找小调：下行小三度小调找大调，上行小三度 基本功1以单音为最低音，寻找合适和弦。寻找的和弦包括三和弦及其转位和七和弦及其转位。 例子：  以C为固定最低音，寻找包含C的三和弦第一转位。 以C为固定最低音，寻找包含C的七和弦第二转位。  要点：转位是所有要移动的音的平移，保持原关系。比如第二转位后，变化的音的排列自下而上仍然是1音和3音。三和弦：  不转位略过 第一">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014001021998-1007328967.webp">
+<meta property="og:image" content="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014000909525-1485875164.webp">
+<meta property="article:published_time" content="2023-10-11T07:13:18.395Z">
+<meta property="article:modified_time" content="2023-10-16T03:12:27.472Z">
+<meta property="article:author" content="Yonggie">
+<meta property="article:tag" content="人工智能 深度学习 算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014001021998-1007328967.webp">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/flame.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/avatar.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.png">
+        
+      
+    
+    <!-- title -->
+    <title>殷泽成</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+		<script type="text/x-mathjax-config">
+		  MathJax.Hub.Config({
+			tex2jax: {
+			  skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+			  inlineMath: [['$','$']]
+			}
+		  });
+		</script>
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML' async></script>
+	
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2023/10/19/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2023/07/26/docker%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&text="><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&is_video=false&description="><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&name=&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&t="><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E8%B0%83%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">大小调关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F1"><span class="toc-number">2.</span> <span class="toc-text">基本功1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0"><span class="toc-number">3.</span> <span class="toc-text">复习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F2"><span class="toc-number">4.</span> <span class="toc-text">基本功2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%9F%B3%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">判断音程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%9B%BA%E5%AE%9A%E9%9F%B3%E5%AF%BB%E6%89%BE%E4%B8%8A%E6%96%B9-%E4%B8%8B%E6%96%B9%E9%9F%B3"><span class="toc-number">4.2.</span> <span class="toc-text">以固定音寻找上方&#x2F;下方音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E7%BA%BF%E8%B0%B1%E8%B0%83%E5%8F%B7%E8%AE%B0%E6%B3%95-%E8%AF%86%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">五线谱调号记法&#x2F;识别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%87%E5%8F%B7"><span class="toc-number">5.1.</span> <span class="toc-text">升号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E5%8F%B7"><span class="toc-number">5.2.</span> <span class="toc-text">降号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E5%8F%B7%E6%80%A7%E8%B4%A8"><span class="toc-number">6.</span> <span class="toc-text">调号性质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E5%BC%8F%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">调式分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E5%8F%A4%E8%B0%83"><span class="toc-number">8.</span> <span class="toc-text">中古调</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E5%A3%B0%E8%B0%83"><span class="toc-number">8.1.</span> <span class="toc-text">和声调</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dorian"><span class="toc-number">8.2.</span> <span class="toc-text">dorian</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Yonggie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2023-10-11T07:13:18.395Z" itemprop="datePublished">2023-10-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="大小调关系"><a href="#大小调关系" class="headerlink" title="大小调关系"></a>大小调关系</h1><p>C大调关系调a小调。<br>大调找小调：下行小三度<br>小调找大调，上行小三度</p>
+<h1 id="基本功1"><a href="#基本功1" class="headerlink" title="基本功1"></a>基本功1</h1><p>以单音为最低音，寻找合适和弦。<br>寻找的和弦包括三和弦及其转位和七和弦及其转位。</p>
+<p>例子：</p>
+<ol>
+<li>以C为固定最低音，寻找包含C的三和弦第一转位。</li>
+<li>以C为固定最低音，寻找包含C的七和弦第二转位。</li>
+</ol>
+<p>要点：<br>转位是所有要移动的音的平移，保持原关系。比如第二转位后，变化的音的排列自下而上仍然是1音和3音。<br>三和弦：</p>
+<ol>
+<li>不转位略过</li>
+<li>第一转位 = 26和弦，即最低音与上方音的距离是2度和6度：以C为固定音的二六和弦（或者说以C为最低音的三和弦第一转位），其根音是<strong>下行2度</strong>（与2 6中的6对应，2+6=8）</li>
+<li>第二转位 = 46和弦，即最低音与上方音的距离是4度和6度：以C为固定音的四六和弦（或者说以C为最低音的三和弦第二转位），其根音是<strong>上行4度</strong>（与2 6中的4对应）</li>
+</ol>
+<p>七和弦</p>
+<ol>
+<li>不转位略过</li>
+<li>第一转位，56和弦（从最低音起，音排列不是1357而是1356了，取56为特征），其根音<strong>下行2度</strong>。（与三和弦第一转位同）</li>
+<li>第二转位，34和弦（音列1346），其根音<strong>上行4度</strong>或者<strong>下行5度</strong>都行，都比较远。</li>
+<li>第三转位，2和弦（音列1246），根音<strong>上行2度</strong></li>
+</ol>
+<h1 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h1><p>三和弦根音和高音共5度。</p>
+<p>大三和弦：大三度+小三度<br>小三和弦：小三度+大三度<br>增三和弦：大三度+大三度<br>减三和弦：小三度+小三度</p>
+<p>七和弦根音和高音共7度<br><img src="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014001021998-1007328967.webp" alt=""><br>从上往下以此是：<br>大大七和弦<br>大小七和弦<br>小小七和弦<br>减小七和弦<br>减减七和弦<br>小打七和弦<br>增小七和弦<br>增大七和弦<br><img src="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014000909525-1485875164.webp" alt=""></p>
+<h1 id="基本功2"><a href="#基本功2" class="headerlink" title="基本功2"></a>基本功2</h1><h2 id="判断音程"><a href="#判断音程" class="headerlink" title="判断音程"></a>判断音程</h2><p>举例：<br>对给定音程判断大小几度。</p>
+<p>做法：<br>只需要记住4度以内的音程即可，高度音程可由低度对应。对应规律a+b=9，大对小，增对减，纯对纯。<br>4度内只需记住 </p>
+<ul>
+<li>31 46 57三对的大三度，其余三度都是小三度；</li>
+<li>47是增四度，其余都是纯四度；</li>
+</ul>
+<h2 id="以固定音寻找上方-下方音"><a href="#以固定音寻找上方-下方音" class="headerlink" title="以固定音寻找上方/下方音"></a>以固定音寻找上方/下方音</h2><p>举例：<br>寻找D的上方三度音；寻找E的下方六度音。</p>
+<p>做法：<br>先确定度数，超过四度反向找。<br>再确定大小纯增减，根据需要升降号。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cT411g7kd">https://www.bilibili.com/video/BV1cT411g7kd</a></p>
+<h1 id="五线谱调号记法-识别"><a href="#五线谱调号记法-识别" class="headerlink" title="五线谱调号记法/识别"></a>五线谱调号记法/识别</h1><h2 id="升号"><a href="#升号" class="headerlink" title="升号"></a>升号</h2><p><strong>最后的升号</strong>的位置的所在音名+1个全音。 比如最后的升号在F线上，F+1=G，则此谱号是1=G的调；最后的升号在B线上，F+1全音=#C，则此谱号是1=#C的调；<br>升号的排列：4 1 5 2 6 3 7，即1-7个升号会在这些位置上标出来。</p>
+<h2 id="降号"><a href="#降号" class="headerlink" title="降号"></a>降号</h2><p>看倒数第二个降号在何处，即此谱是1=降什么调。<br>（只有一个降号的是F调）</p>
+<p>降号的排列7 3 6 2 5 1 4。</p>
+<h1 id="调号性质"><a href="#调号性质" class="headerlink" title="调号性质"></a>调号性质</h1><p>主音和弦是大和弦即此调为大调；主音和弦是小和弦即此调为小调。<br>再引申<br>主音上方三度是大三度，即此调为大调；主音上方三度是大小度，即此调为小调。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kr4y1G7B7">https://www.bilibili.com/video/BV1Kr4y1G7B7</a></p>
+<h1 id="调式分析"><a href="#调式分析" class="headerlink" title="调式分析"></a>调式分析</h1><p>是什么：判别一段旋律是什么调号、什么调式。比如判别结果是  A和声大调、B旋律小调等。</p>
+<p>常见调式：<br>大调 自然、旋律、和声<br>小调 自然、旋律、和声<br>五声调式 宫商角徵羽五声</p>
+<p>做题时，试题只选取特征旋律，并且尝尝以主音结尾，以便于快速辨别调式。<br>在实际上，判别时需要人自己听声辩主音，和主音上方三度音，以及上下行音，并且要自行抓住特征旋律才能判别出调式。</p>
+<h1 id="中古调"><a href="#中古调" class="headerlink" title="中古调"></a>中古调</h1><p>视角：各种其他调式=特征音/特征和弦元素。</p>
+<h2 id="和声调"><a href="#和声调" class="headerlink" title="和声调"></a>和声调</h2><p>主要是降六级级。多用特征音就可以。另外还有四级小和弦也是特征和弦。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1C34y1q7px，这个视频关于流行乐中的和声。">https://www.bilibili.com/video/BV1C34y1q7px，这个视频关于流行乐中的和声。</a></p>
+<h2 id="dorian"><a href="#dorian" class="headerlink" title="dorian"></a>dorian</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E5%B0%8F%E8%B0%83%E5%85%B3%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">大小调关系</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F1"><span class="toc-number">2.</span> <span class="toc-text">基本功1</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0"><span class="toc-number">3.</span> <span class="toc-text">复习</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F2"><span class="toc-number">4.</span> <span class="toc-text">基本功2</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E9%9F%B3%E7%A8%8B"><span class="toc-number">4.1.</span> <span class="toc-text">判断音程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5%E5%9B%BA%E5%AE%9A%E9%9F%B3%E5%AF%BB%E6%89%BE%E4%B8%8A%E6%96%B9-%E4%B8%8B%E6%96%B9%E9%9F%B3"><span class="toc-number">4.2.</span> <span class="toc-text">以固定音寻找上方&#x2F;下方音</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E7%BA%BF%E8%B0%B1%E8%B0%83%E5%8F%B7%E8%AE%B0%E6%B3%95-%E8%AF%86%E5%88%AB"><span class="toc-number">5.</span> <span class="toc-text">五线谱调号记法&#x2F;识别</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%87%E5%8F%B7"><span class="toc-number">5.1.</span> <span class="toc-text">升号</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E5%8F%B7"><span class="toc-number">5.2.</span> <span class="toc-text">降号</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E5%8F%B7%E6%80%A7%E8%B4%A8"><span class="toc-number">6.</span> <span class="toc-text">调号性质</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%B0%83%E5%BC%8F%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">调式分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AD%E5%8F%A4%E8%B0%83"><span class="toc-number">8.</span> <span class="toc-text">中古调</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%92%8C%E5%A3%B0%E8%B0%83"><span class="toc-number">8.1.</span> <span class="toc-text">和声调</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dorian"><span class="toc-number">8.2.</span> <span class="toc-text">dorian</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&text="><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&is_video=false&description="><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=&body=Check out this article: https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&title="><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&name=&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://yonggie.github.io/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/&t="><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2023
+    Yonggie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/search/">Search</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>

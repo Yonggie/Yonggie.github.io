@@ -4,6 +4,51 @@
   
     
     <entry>
+      <title>联邦学习框架23.10.19</title>
+      <link href="/2023/10/19/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/"/>
+      <url>/2023/10/19/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6/</url>
+      
+        <content type="html"><![CDATA[<p>2023年10月已经基本上不更新的框架：</p><p>字节 <a href="https://github.com/bytedance/fedlearner">https://github.com/bytedance/fedlearner</a><br>京东 <a href="https://github.com/cyqclark/fedlearn-algo">https://github.com/cyqclark/fedlearn-algo</a><br>百度 <a href="https://github.com/PaddlePaddle/PaddleFL">https://github.com/PaddlePaddle/PaddleFL</a><br>九数 <a href="https://github.com/jd-9n/9nfl">https://github.com/jd-9n/9nfl</a><br>rosetta <a href="https://github.com/LatticeX-Foundation/Rosetta">https://github.com/LatticeX-Foundation/Rosetta</a>  （基于tensorflow）<br><a href="https://github.com/scaleoutsystems/fedn">https://github.com/scaleoutsystems/fedn</a><br>meta <a href="https://github.com/facebookresearch/FLSim">https://github.com/facebookresearch/FLSim</a>  （只是模拟FL）<br>上述框架基本上是死了。</p><p>还在持续更新的框架<br>openfl <a href="https://github.com/securefederatedai/openfl">https://github.com/securefederatedai/openfl</a><br>阿里 <a href="https://github.com/alibaba/FederatedScope">https://github.com/alibaba/FederatedScope</a><br>隐私保护联邦 <a href="https://github.com/APPFL/APPFL">https://github.com/APPFL/APPFL</a><br>边缘计算 华为 <a href="https://github.com/mindspore-ai/mindspore/tree/master">https://github.com/mindspore-ai/mindspore/tree/master</a><br>不仅联邦学习fedml： <a href="https://github.com/FedML-AI/FedML">https://github.com/FedML-AI/FedML</a><br>谷歌TTF  <a href="https://tensorflow.google.cn/federated?hl=zh-cn">https://tensorflow.google.cn/federated?hl=zh-cn</a>   （基于tensorflow）</p><p>算法集合库（应该是几乎不能落地的那种）：<a href="https://github.com/SMILELab-FL/FedLab">https://github.com/SMILELab-FL/FedLab</a></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> federated learning </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/"/>
+      <url>/2023/10/11/%E9%9F%B3%E4%B9%90%E5%9F%BA%E6%9C%AC%E5%8A%9F/</url>
+      
+        <content type="html"><![CDATA[<h1 id="大小调关系"><a href="#大小调关系" class="headerlink" title="大小调关系"></a>大小调关系</h1><p>C大调关系调a小调。<br>大调找小调：下行小三度<br>小调找大调，上行小三度</p><h1 id="基本功1"><a href="#基本功1" class="headerlink" title="基本功1"></a>基本功1</h1><p>以单音为最低音，寻找合适和弦。<br>寻找的和弦包括三和弦及其转位和七和弦及其转位。</p><p>例子：</p><ol><li>以C为固定最低音，寻找包含C的三和弦第一转位。</li><li>以C为固定最低音，寻找包含C的七和弦第二转位。</li></ol><p>要点：<br>转位是所有要移动的音的平移，保持原关系。比如第二转位后，变化的音的排列自下而上仍然是1音和3音。<br>三和弦：</p><ol><li>不转位略过</li><li>第一转位 = 26和弦，即最低音与上方音的距离是2度和6度：以C为固定音的二六和弦（或者说以C为最低音的三和弦第一转位），其根音是<strong>下行2度</strong>（与2 6中的6对应，2+6=8）</li><li>第二转位 = 46和弦，即最低音与上方音的距离是4度和6度：以C为固定音的四六和弦（或者说以C为最低音的三和弦第二转位），其根音是<strong>上行4度</strong>（与2 6中的4对应）</li></ol><p>七和弦</p><ol><li>不转位略过</li><li>第一转位，56和弦（从最低音起，音排列不是1357而是1356了，取56为特征），其根音<strong>下行2度</strong>。（与三和弦第一转位同）</li><li>第二转位，34和弦（音列1346），其根音<strong>上行4度</strong>或者<strong>下行5度</strong>都行，都比较远。</li><li>第三转位，2和弦（音列1246），根音<strong>上行2度</strong></li></ol><h1 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h1><p>三和弦根音和高音共5度。</p><p>大三和弦：大三度+小三度<br>小三和弦：小三度+大三度<br>增三和弦：大三度+大三度<br>减三和弦：小三度+小三度</p><p>七和弦根音和高音共7度<br><img src="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014001021998-1007328967.webp" alt=""><br>从上往下以此是：<br>大大七和弦<br>大小七和弦<br>小小七和弦<br>减小七和弦<br>减减七和弦<br>小打七和弦<br>增小七和弦<br>增大七和弦<br><img src="https://img2023.cnblogs.com/blog/3281074/202310/3281074-20231014000909525-1485875164.webp" alt=""></p><h1 id="基本功2"><a href="#基本功2" class="headerlink" title="基本功2"></a>基本功2</h1><h2 id="判断音程"><a href="#判断音程" class="headerlink" title="判断音程"></a>判断音程</h2><p>举例：<br>对给定音程判断大小几度。</p><p>做法：<br>只需要记住4度以内的音程即可，高度音程可由低度对应。对应规律a+b=9，大对小，增对减，纯对纯。<br>4度内只需记住 </p><ul><li>31 46 57三对的大三度，其余三度都是小三度；</li><li>47是增四度，其余都是纯四度；</li></ul><h2 id="以固定音寻找上方-下方音"><a href="#以固定音寻找上方-下方音" class="headerlink" title="以固定音寻找上方/下方音"></a>以固定音寻找上方/下方音</h2><p>举例：<br>寻找D的上方三度音；寻找E的下方六度音。</p><p>做法：<br>先确定度数，超过四度反向找。<br>再确定大小纯增减，根据需要升降号。</p><p>参考：<a href="https://www.bilibili.com/video/BV1cT411g7kd">https://www.bilibili.com/video/BV1cT411g7kd</a></p><h1 id="五线谱调号记法-识别"><a href="#五线谱调号记法-识别" class="headerlink" title="五线谱调号记法/识别"></a>五线谱调号记法/识别</h1><h2 id="升号"><a href="#升号" class="headerlink" title="升号"></a>升号</h2><p><strong>最后的升号</strong>的位置的所在音名+1个全音。 比如最后的升号在F线上，F+1=G，则此谱号是1=G的调；最后的升号在B线上，F+1全音=#C，则此谱号是1=#C的调；<br>升号的排列：4 1 5 2 6 3 7，即1-7个升号会在这些位置上标出来。</p><h2 id="降号"><a href="#降号" class="headerlink" title="降号"></a>降号</h2><p>看倒数第二个降号在何处，即此谱是1=降什么调。<br>（只有一个降号的是F调）</p><p>降号的排列7 3 6 2 5 1 4。</p><h1 id="调号性质"><a href="#调号性质" class="headerlink" title="调号性质"></a>调号性质</h1><p>主音和弦是大和弦即此调为大调；主音和弦是小和弦即此调为小调。<br>再引申<br>主音上方三度是大三度，即此调为大调；主音上方三度是大小度，即此调为小调。</p><p>参考：<a href="https://www.bilibili.com/video/BV1Kr4y1G7B7">https://www.bilibili.com/video/BV1Kr4y1G7B7</a></p><h1 id="调式分析"><a href="#调式分析" class="headerlink" title="调式分析"></a>调式分析</h1><p>是什么：判别一段旋律是什么调号、什么调式。比如判别结果是  A和声大调、B旋律小调等。</p><p>常见调式：<br>大调 自然、旋律、和声<br>小调 自然、旋律、和声<br>五声调式 宫商角徵羽五声</p><p>做题时，试题只选取特征旋律，并且尝尝以主音结尾，以便于快速辨别调式。<br>在实际上，判别时需要人自己听声辩主音，和主音上方三度音，以及上下行音，并且要自行抓住特征旋律才能判别出调式。</p><h1 id="中古调"><a href="#中古调" class="headerlink" title="中古调"></a>中古调</h1><p>视角：各种其他调式=特征音/特征和弦元素。</p><h2 id="和声调"><a href="#和声调" class="headerlink" title="和声调"></a>和声调</h2><p>主要是降六级级。多用特征音就可以。另外还有四级小和弦也是特征和弦。</p><p>参考：<a href="https://www.bilibili.com/video/BV1C34y1q7px，这个视频关于流行乐中的和声。">https://www.bilibili.com/video/BV1C34y1q7px，这个视频关于流行乐中的和声。</a></p><h2 id="dorian"><a href="#dorian" class="headerlink" title="dorian"></a>dorian</h2>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/2023/07/26/docker%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/"/>
+      <url>/2023/07/26/docker%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF/</url>
+      
+        <content type="html"><![CDATA[<p>参考材料：<a href="https://zhuanlan.zhihu.com/p/465877731">https://zhuanlan.zhihu.com/p/465877731</a></p><p>我之前服务的公司是一家深耕于ToB领域的业界招牌，为大量的企业提供了私有化的企业服务软件。而我在该公司的七年时间，经历了公司对于新技术的两次尝试，给我留下了深刻的印象。</p><p>第一次尝试是公司开发了一套完全基于微服务架构的产品，只需要一个启动脚本就可以在一台机器上拉起几十个微服务。但是这款产品在客户现场遇到了无数的兼容性问题，导致研发中心的工程师全部被拖入无穷无尽的用户投诉中。最后这个产品经历了短暂的辉煌后默默下线，变成了我的同事们不再愿意提及的伤痛。戏剧性的是，在这个产品被公司砍掉后的半年，整个行业突然迎来了容器化技术的大爆发，这时候我们很不甘心的意识到，如果容器化技术可以早两年，哪怕早一年出现，我们的这个产品就会有一个完全不一样的结果。而这也是容器化技术第一次进入我的视野，并让我对它有了一种莫名的信任。</p><p>在接下来的一两年里，容器化技术以非常恐怖的速度成长，社区群雄并起，硝烟弥漫，彼时容器化无所不能的言论甚嚣尘上。而容器化技术对我前司的冲击，在某个技术负责人利用业余时间，以非常小的代价把我司一整套ToB产品全部塞进了k8s集群时，达到了顶峰。技术团队以上一个失败的产品作为参考，评估了整套容器环境的兼容性易用性以及技术难度以后，毅然决定将公司产品线全面转型容器化。自此开始，我用我不算太短的职业生涯，把容器化能踩的坑全部踩了一遍……因此，当有人希望我可以聊一聊“容器化的可用场景和不可用场景”这个话题的时候，我感到心中有万千沟壑，不吐不快。</p><p>关于这个话题，我尝试用我之前的经历，给出一些不太适合使用容器化技术的场景，权当讨论：</p><ol><li><p>如果你的应用场景中，程序需要频繁的和一些需要特殊驱动的硬件资源交互或者内核交互，那么这个应用是不适合放在容器中运行的。虽然我们可以把设备pass through到容器，但是如果需要涉及到修改内核参数，或者内核交互，就不行，容器内无法做到这些，需要宿主机修改。</p></li><li><p>容器的优势之一对于资源的精细化管理。如果服务本身需要超大资源（CPU或者内存接近宿主机本身资源大小），那么这个服务更适合放在裸机上运行。因为容器本身的资源调度也是需要消耗性能的，把重资源的服务放在容器中跑并不能提速，对于资源的精细化管理也没有任何帮助。如果这种服务有强烈的容器化需求，建议先拆分成微服务，再分批容器化。</p></li><li><p>对读写和存储有强需求的服务，比如早些时候，数据库是不推荐放在容器中运行的。哪怕docker volumes可以提供持久存储，但是容器本身只是进程级别的运行，一旦容器崩溃，很容易导致数据库非正常关闭进而损坏数据。近两年，关于容器化数据库技术日益完善，但即使我们把数据库放在容器执行，并且保证无状态，但是由于对存储性能要求很高，在具体实现过程中，对容器调度依然有一定要求。当然，作为缓存数据库的Redis因为并不需要数据落地，即使服务崩溃也不会有很大的影响，它就是很适合放在容器中运行的。</p></li><li><p>对于需要调用图形接口的应用，或者Windows平台特定程序，容器化也是不合适的。虽然业界有Nano作为解决方案，但是这个解决方案也并不是完全可靠。</p></li><li><p>如果你的服务需要把安全性作为第一优先级考虑，那么容器化方案通常不是最优解。因为集群中运行的容器某种意义上共享机器的内存和磁盘资源，会有潜在的安全风险。虽然我们可以用不同的命名空间实现绝大部分的隔离，但是并不一定安全。</p></li></ol><p>时至今日，容器化社区依然在高速发展，以上这些不适合的场景在社区中也在慢慢的改进，也许不久的将来甚至当下，就会有更合适的容器化解决方案产生。</p><p>当然，相对不适合容器化的场景，有些业务非常适合容器化，在做好清晰的系统规划和架构设计后，容器化可以极大的降低业务的运维成本，以下给出一些具体的案例：</p><ol><li><p>Web应用服务。容器化的飞速成长和这些年互联网业务的大规模发展有着直接关系。容器服务的快速启动，统一管理，易于监控，弹性伸缩，都是互联网业务的强需求。因此也有无数的互联网公司在积极回馈容器社区，促成的整个生态的良性循环。</p></li><li><p>微服务架构下的容器化使用。就像我前文提到的，微服务的解耦性和小模块服务运行/升级，和容器化方案本身的特性非常契合，因此容器化技术和微服务架构可以说是相互成就彼此的最佳典范。</p></li><li><p>精细化资源分配业务，容器服务由于其特殊的资源调度机制，对于计算资源的分配可以精细到小数点。因此容器化技术很适合让企业告别粗犷的资源分配模式，从成本控制上更好的帮助业务发展。</p></li><li><p>精细化资源分配业务的另一个场景是一次性业务。容器由于其即用即销毁的灵活特征，避免了计算资源的大量浪费。</p></li><li><p>持续集成和持续部署。容器化技术可以基于同一套镜像提供一致化的编译部署环境，并且配合k8s的优秀编排能力，无缝升级模式，快速完成服务的自动化升级，最大程度的简化运维成本，并且保持环境的绝对一致性。</p></li><li><p>强横向扩容业务，比如游戏行业：在联网游戏中，传统模式下游戏公司需要准备大量物理机器，随时热备等待玩家接入。再游戏结束后又要及时释放资源重新启动新的服务器进入热备队列，资源调度和管理非常麻烦。而使用容器化集群，可以非常容易的解决这个问题。</p></li></ol><p>作为一个工程师，我避免使用非黑即白的二元论断来肯定或者否定容器化的使用场景。站在技术发展前沿的我们，对于新兴的容器化技术，既不应该盲目迷信容器化的无所不能，也不应该妖魔化容器技术的局限和不稳定性。没有业务支撑的技术只是屠龙之术，而没有技术支持的业务也不会有长远的发展，因此，让业务和技术相互成就，才是工程师该选择的道路。</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>FATE高度定制</title>
       <link href="/2023/05/15/FATE%E9%AB%98%E5%BA%A6%E5%AE%9A%E5%88%B6/"/>
       <url>/2023/05/15/FATE%E9%AB%98%E5%BA%A6%E5%AE%9A%E5%88%B6/</url>
